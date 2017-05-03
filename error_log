@@ -1,0 +1,14 @@
+[03-May-2017 16:15:53 America/Chicago] Unable to open pages/home.html
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:2178] Base->error()
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:2934] user_error()
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/index.php:14] Preview->render()
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1791] {closure}()
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1612] Base->call()
+[03-May-2017 16:15:53 America/Chicago] [328/blogs/index.php:17] Base->run()
+[03-May-2017 16:29:22 America/Chicago] Unable to open pages/home.html
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:2178] Base->error()
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:2934] user_error()
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/index.php:14] Preview->render()
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1791] {closure}()
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1612] Base->call()
+[03-May-2017 16:29:22 America/Chicago] [328/blogs/index.php:17] Base->run()
