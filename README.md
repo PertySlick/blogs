@@ -1,5 +1,6 @@
 # blogs
-Green River College IT328 Full Stack Web Development - Assignment: Blogs
+## Green River College IT328 Full Stack Web Development
+### Assignment: Blogs
 
 This project is my answer to an assignment in the mentioned college course.  Please see below for a brief overview of the assignment criteria.  For a more detailed look at the requirments you can view the pdf file in this Git with the same name as the assignment.
 
