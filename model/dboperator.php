@@ -1,6 +1,7 @@
 <?php
 
-class DbOperator {
+class DbOperator
+{
 
 
 // FIELDS AND OBJECTS
@@ -12,7 +13,8 @@ class DbOperator {
 // CONSTRUCTOR
 
 
-    public __construct() {
+    public __construct()
+    {
         // Require Configuration File
         require_once '/home/troush/secure/credentials_blogs.inc.php';
         
@@ -41,25 +43,58 @@ class DbOperator {
      * @param $blogger Blogger object storing user details
      * @return int database row id of added blogger data
      */
-    public addBlogger($blogger) {
-        // Create Prepared Query
-        $stmt = $this->_conn->prepare(
-            'INSERT INTO bloggers
-            (firstName, lastName, image, bio)
-            VALUES (
-            $blogger->getFirstName(),
-            $blogger->getLastName(),
-            $blogger->getImage(),
-            $blogger->getBio())'
-            );
+    public addBlogger($blogger)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare('
+            INSERT INTO bloggers
+                (firstName, lastName, image, bio)
+            VALUES
+                (:fName, :lName, :image, :bio)
+            ');
         
-        // Execute PDO Query
+        // Bind Statement Parameters
+        $stmt->bindParam(':fName', $blogger->getFirstName(), PDO::PARAM_STR);
+        $stmt->bindParam(':lName', $blogger->getLastName(), PDO::PARAM_STR);
+        $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
+        $stmt->bindParam(':bio', $blogger->getBio(), PDO::PARAM_STR);
+        
+        // Execute PDO Statement
         try {
             $stmt->execute();
-        } catch ( PDOException $e ) {
-            die( '(!) Error Adding Blogger: ' . $e->getMessage() );
+        } catch (PDOException $e) {
+            die('(!) Error Adding Blogger: ' . $e->getMessage());
         }
         
+        // Return User/Blogger ID
         return $this->_conn->lastInsertId();
+    }
+
+
+    public modifyBlogger($blogger)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare('
+            UPDATE bloggers
+            SET
+                firstName=:fname,
+                lastName=:lname,
+                image=:image,
+                bio=:bio,
+            WHERE id=:id
+            ');
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
+        $stmt->bindPAram(':lname', $blogger->getFirstNameO(), PDO::PARAM_STR);
+        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
+        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
+        
+        // Execute PDO Statement
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            die( '(!) Error Updating Profile: ' . $e->getMessage());
+        }
     }
 }
