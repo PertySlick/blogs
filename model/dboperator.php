@@ -71,6 +71,13 @@ class DbOperator
     }
 
 
+    /**
+     * Updates the database record matching the Blogger object supplied.
+     * Blogger first name, last name, image, and bio are updated with the
+     * values stored in side the object.  Database record found using the id
+     * value stored in the Blogger object.
+     * @param $blogger Blogger object with values
+     */
     public modifyBlogger($blogger)
     {
         // Create Prepared Statement
@@ -86,9 +93,10 @@ class DbOperator
         
         // Bind Statement Parameters
         $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
-        $stmt->bindPAram(':lname', $blogger->getFirstNameO(), PDO::PARAM_STR);
-        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
-        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
+        $stmt->bindPAram(':lname', $blogger->getLastNameO(), PDO::PARAM_STR);
+        $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
+        $stmt->bindParam(':bio', $blogger->getBio(), PDO::PARAM_STR);
+        $stmt->bindParam(':id', $blogger->getID(), PDO::PARAM_INT);
         
         // Execute PDO Statement
         try {
