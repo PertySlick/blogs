@@ -3,15 +3,15 @@
 class Blogger {
     const DEFAULT_IMAGE = "male.png";
 
-    protected $firstName;
-    protected $lastName;
-    protected $blogCount;
-    protected $image;
-    protected $lastBlog;
+    private $_firstName;
+    private $_lastName;
+    private $_blogCount;
+    private $_image;
+    private $_lastBlog;
 
     function __construct($firstName, $lastName) {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
+        $this->_firstName = $firstName;
+        $this->_lastName = $lastName;
     }
 
 
@@ -23,7 +23,7 @@ class Blogger {
      * @return String blogger's first name
      */
     function getFirstName() {
-        return $this->firstName;
+        return $this->_firstName;
     }
 
 
@@ -32,7 +32,7 @@ class Blogger {
      * @return String blogger's last name
      */
     function getLastName() {
-        return $this->lastName;
+        return $this->_lastName;
     }
 
 
@@ -44,17 +44,8 @@ class Blogger {
     function getFullName($solid = false) {
         $space = $solid?" ":"";
         
-        $fullName = $this->firstName . $space . $this->lastName;
+        $fullName = $this->_firstName . $space . $this->_lastName;
         return ucfirst($fullName);
-    }
-
-
-    /**
-     * Retrieves the value representing the number of blogs this blogger has.
-     * @return int blogger's blog count
-     */
-    function getBlogCount() {
-        return $this->blogCount;
     }
 
 
@@ -63,7 +54,7 @@ class Blogger {
      * @return String blogger's profile image file name
      */
     function getImage() {
-        return $this->image;
+        return $this->_image;
     }
 
 
@@ -72,7 +63,7 @@ class Blogger {
      * @return String blogger's last blog content
      */
     function getLastBlog() {
-        return $this->lastBlog;
+        return $this->_lastBlog;
     }
 
 
@@ -84,7 +75,7 @@ class Blogger {
      * @param $value String blogger's first name
      */
     function setFirstName($value) {
-        $this->firstName = $value;
+        $this->_firstName = $value;
     }
 
 
@@ -93,16 +84,7 @@ class Blogger {
      * @param @value String blogger's last name
      */
     function setLastName($value) {
-        $this->lastName = $value;
-    }
-
-
-    /**
-     * Sets the value representing the number of blogs this blogger has.
-     * @param $value int blogger's blog count
-     */
-    function setBlogCount($value) {
-        $this->blogCount = $value;
+        $this->_lastName = $value;
     }
 
 
@@ -111,7 +93,7 @@ class Blogger {
      * @param $value String blogger's profile image file name
      */
     function setImage($value) {
-        $this->image = $value;
+        $this->_image = $value;
     }
 
 
@@ -120,6 +102,6 @@ class Blogger {
      * @param $value String blogger's last blog content
      */
     function setLastBlos($value) {
-        $this->lastBlog = $value;
+        $this->_lastBlog = $value;
     }
 }
