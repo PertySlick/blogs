@@ -3,13 +3,13 @@
 class Blogger {
     const DEFAULT_IMAGE = "male.png";
 
-    protected firstName;
-    protected lastName;
-    protected blogCount;
-    protected image;
-    protected lastBlog;
+    protected $firstName;
+    protected $lastName;
+    protected $blogCount;
+    protected $image;
+    protected $lastBlog;
 
-    function __construct(firstName, lastName) {
+    function __construct($firstName, $lastName) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
     }
@@ -41,7 +41,7 @@ class Blogger {
      * first/last order with proper capitalization.
      * @return String blogger's last name
      */
-    function getLastName($solid = false) {
+    function getFullName($solid = false) {
         $space = $solid?" ":"";
         
         $fullName = $this->firstName . $space . $this->lastName;
