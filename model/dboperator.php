@@ -32,7 +32,17 @@ class DbOperator {
 // METHODS - BLOGGER INFORMATION
 
 
+    /**
+     * Add a User/Blogger
+     *
+     * Adds a Blogger to the database using information stored in a Blogger
+     * object.  The member_id of the blogger is returned for use in parent
+     * block.
+     * @param $blogger Blogger object storing user details
+     * @return int database row id of added blogger data
+     */
     public addBlogger($blogger) {
+        // Create Prepared Query
         $stmt = $this->_conn->prepare(
             'INSERT INTO bloggers
             (firstName, lastName, image, bio)
@@ -42,5 +52,14 @@ class DbOperator {
             $blogger->getImage(),
             $blogger->getBio())'
             );
+        
+        // Execute PDO Query
+        try {
+            $stmt->execute();
+        } catch ( PDOException $e ) {
+            die( '(!) Error Adding Blogger: ' . $e->getMessage() );
+        }
+        
+        return $this->_conn->lastInsertId();
     }
 }
