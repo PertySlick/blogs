@@ -13,7 +13,7 @@ class DbOperator
 // CONSTRUCTOR
 
 
-    public __construct()
+    public function __construct()
     {
         // Require Configuration File
         require_once '/home/troush/secure/credentials_blogs.inc.php';
@@ -43,7 +43,7 @@ class DbOperator
      * @param $blogger Blogger object storing user details
      * @return int database row id of added blogger data
      */
-    public addBlogger($blogger)
+    public function addBlogger($blogger)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare('
@@ -78,7 +78,7 @@ class DbOperator
      * value stored in the Blogger object.
      * @param $blogger Blogger object with values
      */
-    public modifyBlogger($blogger)
+    public function modifyBlogger($blogger)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare('
@@ -104,5 +104,38 @@ class DbOperator
         } catch (PDOException $e) {
             die( '(!) Error Updating Profile: ' . $e->getMessage());
         }
+    }
+
+
+    public function addCredentials($username, $email, $password)
+    {
+        if(!exists($email_) {
+            $stmt = $this->_conn->prepare('
+                
+                ')
+        }
+        
+    }
+    
+    
+    private function exists($email)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare('
+            SELECT
+                COUNT(*) AS count
+            FROM credentials
+            WHERE email=:email
+            ');
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        
+        // Execute PDO Statement
+        $results = $stmt->execute();
+        
+        // Return results
+        if ($results['count'] > 0) return true;
+        else return false;
     }
 }
