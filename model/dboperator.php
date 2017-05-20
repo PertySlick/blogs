@@ -6,8 +6,8 @@ class DbOperator
 
 // FIELDS AND OBJECTS
 
-
-    private $_conn;                             // Database Connection Object
+    private const SUMMARY_LENGTH = 250;     // Amount of text in blog summary
+    private $_conn;                         // Database Connection Object
 
 
 // CONSTRUCTOR
@@ -34,6 +34,13 @@ class DbOperator
 // METHODS - BLOGGER INFORMATION
 
 
+    /**
+     * Retrieves data from the database related to the provided id number.
+     * Data is used to compile a Blogger object which is then returned.  If the
+     * provided id does not exist in the database, a null value is returned.
+     * @param $id int id number to retrieve
+     * @return Blogger object of results, null if not found
+     */
     public function getBlogger($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
@@ -54,6 +61,33 @@ class DbOperator
         $blogger->setBio($results['bio']);
         $blogger->setBlogCount($this->getBlogCount($id));
         $blogger->setLastBlog($this->getLastSummary($id));
+    }
+
+
+    /**
+     * Retrieves all data for all bloggers currently registered.  Data is used
+     * to build Blogger objects which are then stored in an array.  This array
+     * is then returned at the end of the method.  If no bloggers are found in
+     * the database, a null value is returned.
+     * @return array() array of Blogger objects, null if none exist
+     */
+    public function getAllBloggers() {
+        // Array to store Blogger objects to return
+        $bloggers = array();
+        
+        // Query database for blogger id numbers
+        $stmt = 'SELECT id FROM bloggers';
+        $results = $_conn->query($stmt);
+        
+        // Create a Blogger object for each id and store in array
+        if ($results->rowCount() > 0) {
+            foreach ($results as $result) {
+                $bloggers[] = getBlogger($result['id']);
+            }
+            return $bloggers;                   // Return array of bloggers
+        } else {
+            return null;                        // Return null if no bloggers
+        }
     }
 
 
@@ -236,7 +270,7 @@ class DbOperator
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($results->rowCount() > 0) {
-            return substr($results['content'], 0, 250);
+            return substr($results['content'], 0, SUMMARY_LENGTH);
         } else {
             return 'User has not submitted a blog just yet...';
         }
