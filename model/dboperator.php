@@ -146,7 +146,8 @@ class DbOperator
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         
         // Execute PDO Statement
-        $results = $stmt->execute();
+        $stmt->execute();
+        $results = $stmt->fetch( PDO::FETCH_ASSOC );
         
         // Return results
         if ($results['count'] > 0) return true;
@@ -167,7 +168,8 @@ class DbOperator
         $stmt->bindParam(':user', $userName, PDO::PARAM_STR);
         
         // Execute PDO Statement
-        $results = $stmt->execute();
+        $stmt->execute();
+        $results = $stmt->fetch( PDO::FETCH_ASSOC );
         
         // Return results
         if ($results['count'] > 0) return true;
@@ -177,7 +179,7 @@ class DbOperator
 
     private function idExists($id)
     {
-        // Create Prepared Statement
+        
         $stmt = $this->_conn->prepare(
             'SELECT COUNT(*) AS count' .
             'FROM bloggers' .
@@ -188,7 +190,8 @@ class DbOperator
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         
         // Execute PDO Statement
-        $results = $stmt->execute();
+        $stmt->execute();
+        $results = $stmt->fetch( PDO::FETCH_ASSOC );
         
         // Return results
         if ($results['count'] > 0) return true;
@@ -197,12 +200,46 @@ class DbOperator
 
 
     private function getBlogCount($id) {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare(
+            'SELECT COUNT() as count ' .
+            'FROM blogs ' .
+            'WHERE author=:id'
+            );
         
+        // Bind Statement Parameters
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        
+        // Return results
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $results['count'];
     }
 
 
     private function getLastSummary($id) {
-        $stmt = 'SELECT content FROM blogs WHERE author=:id ORDER BY dateAdded DESC LIMIT 1';
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare(
+            'SELECT content ' .
+            'FROM blogs ' .
+            'WHERE author=:id ' .
+            'ORDER BY dateAdded DESC ' .
+            'LIMIT 1'
+            );
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        
+        // Return results
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($results->rowCount() > 0) {
+            return substr($results['content'], 0, 250);
+        } else {
+            return 'User has not submitted a blog just yet...';
+        }
     }
 
 
