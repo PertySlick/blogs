@@ -157,7 +157,7 @@ class Blogger {
      * Sets the value stored as this blogger's last blog entry.
      * @param $value String blogger's last blog content
      */
-    function getLastBlog($value)
+    function setLastBlog($value)
     {
         $this->_lastBlog = $value;
     }

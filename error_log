@@ -172,3 +172,27 @@
 [20-May-2017 16:11:32 America/Chicago] PHP Fatal error:  Cannot redeclare Blogger::getLastBlog() in /home/troush/public_html/328/blogs/classes/blogger.php on line 160
 [20-May-2017 16:11:32 America/Chicago] Fatal error: Cannot redeclare Blogger::getLastBlog()
 [20-May-2017 16:11:32 America/Chicago] [328/blogs/classes/blogger.php:160] 
+[20-May-2017 17:12:20 America/Chicago] PHP Fatal error:  Cannot redeclare Blogger::getLastBlog() in /home/troush/public_html/328/blogs/classes/blogger.php on line 160
+[20-May-2017 17:12:20 America/Chicago] Fatal error: Cannot redeclare Blogger::getLastBlog()
+[20-May-2017 17:12:20 America/Chicago] [328/blogs/classes/blogger.php:160] 
+[20-May-2017 17:40:21 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:40:22 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:40:22 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:42:26 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:42:26 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:42:26 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:42:49 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:42:49 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:42:49 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:44:54 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:44:54 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:44:54 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:45:27 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:45:27 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:45:27 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:46:38 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:46:38 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:46:38 America/Chicago] [328/blogs/index.php:23] Base->run()
+[20-May-2017 17:48:38 America/Chicago] HTTP 404 (GET /style/styles.css)
+[20-May-2017 17:48:38 America/Chicago] [328/blogs/vendor/bcosca/fatfree-core/base.php:1645] Base->error()
+[20-May-2017 17:48:38 America/Chicago] [328/blogs/index.php:23] Base->run()

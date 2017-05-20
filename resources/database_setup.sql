@@ -3,8 +3,8 @@ CREATE TABLE bloggers (
   id INT AUTO_INCREMENT PRIMARY KEY,
   userName VARCHAR(30) NOT NULL UNIQUE,
   email VARCHAR(255) NOT NULL UNIQUE,
-  image VARCHAR(35) DEFAULT anon.png,
-  bio TEXT DEFAULT 'No bio entered...';
+  image VARCHAR(35) DEFAULT 'anon.png',
+  bio TEXT,
   password VARCHAR(255) NOT NULL
 ) ENGINE=INNODB;
 
