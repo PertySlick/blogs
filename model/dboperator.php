@@ -48,12 +48,14 @@ class DbOperator
         // Create Prepared Statement
         $stmt = $this->_conn->prepare('
             INSERT INTO bloggers
-                (firstName, lastName, image, bio)
+                (userName, email, firstName, lastName, image, bio)
             VALUES
-                (:fName, :lName, :image, :bio)
+                (:userName, :email, :fName, :lName, :image, :bio)
             ');
         
         // Bind Statement Parameters
+        $stmt->bindParam(':userName', $blogger->getUserName(), PDO::PARAM_STR);
+        $stmt->bindParam(':email', $blogger->getEmail(), PDO::PARAM_STR);
         $stmt->bindParam(':fName', $blogger->getFirstName(), PDO::PARAM_STR);
         $stmt->bindParam(':lName', $blogger->getLastName(), PDO::PARAM_STR);
         $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
@@ -84,14 +86,18 @@ class DbOperator
         $stmt = $this->_conn->prepare('
             UPDATE bloggers
             SET
+                userName=:userName,
+                email=:email,
                 firstName=:fname,
                 lastName=:lname,
                 image=:image,
-                bio=:bio,
+                bio=:bio
             WHERE id=:id
             ');
         
         // Bind Statement Parameters
+        $stmt->bindParam(':userName', $blogger->getUserName(), PDO::PARAM_STR);
+        $stmt->bindParam(':email', $blogger->getEmail(), PDO::PARAM_STR);
         $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
         $stmt->bindPAram(':lname', $blogger->getLastNameO(), PDO::PARAM_STR);
         $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
@@ -107,29 +113,40 @@ class DbOperator
     }
 
 
-    public function addCredentials($username, $email, $password)
-    {
-        if(!exists($email_) {
-            $stmt = $this->_conn->prepare('
-                
-                ')
-        }
-        
-    }
-    
-    
-    private function exists($email)
+    private function emailExists($email)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare('
             SELECT
                 COUNT(*) AS count
-            FROM credentials
+            FROM bloggers
             WHERE email=:email
             ');
         
         // Bind Statement Parameters
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        
+        // Execute PDO Statement
+        $results = $stmt->execute();
+        
+        // Return results
+        if ($results['count'] > 0) return true;
+        else return false;
+    }
+
+
+    private function userExists($userName)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare('
+            SELECT
+                COUNT(*) AS count
+            FROM bloggers
+            WHERE userName=:user
+            ');
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':user', $userName, PDO::PARAM_STR);
         
         // Execute PDO Statement
         $results = $stmt->execute();

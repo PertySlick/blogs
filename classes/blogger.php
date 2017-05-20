@@ -3,15 +3,27 @@
 class Blogger {
     const DEFAULT_IMAGE = "male.png";
 
-    private $_firstName;
-    private $_lastName;
-    private $_blogCount;
+    private $_id;
+    private $_userName;
+    private $_email;
     private $_image;
+    private $_blogCount;
     private $_lastBlog;
 
-    function __construct($firstName, $lastName) {
-        $this->_firstName = $firstName;
-        $this->_lastName = $lastName;
+
+// METHODS - CONSTRUCTOR
+
+
+    /**
+     * Creates an instance of a Blogger object.  This object is used to store
+     * commonly used details of a site user.
+     * @param $userName String blogger's user name
+     * @param $email String blogger's email eddress
+     */
+    function __construct($userName, $email)
+    {
+        $this->setUserName($userName);
+        $this->setEmail($email);
     }
 
 
@@ -19,33 +31,32 @@ class Blogger {
 
 
     /**
-     * Retrieves the value stored as this blogger's first name.
-     * @return String blogger's first name
+     * Retrieves the value stored as this blogger's database ID.
+     * @return int blogger's database id
      */
-    function getFirstName() {
-        return $this->_firstName;
+    function getID()
+    {
+        return $this->_id;
     }
 
 
     /**
-     * Retrieves the value stored as this blogger's last name.
-     * @return String blogger's last name
+     * Retrieves the value stored as this blogger's user name.
+     * @return String blogger's user name
      */
-    function getLastName() {
-        return $this->_lastName;
+    function getUserName()
+    {
+        return $this->_userName;
     }
 
 
     /**
-     * Retrieves the full name stored for this blogger.  Name is returned in
-     * first/last order with proper capitalization.
-     * @return String blogger's last name
+     * Retrieves the value stored as this blogger's email address.
+     * @return String blogger's email
      */
-    function getFullName($solid = false) {
-        $space = $solid?" ":"";
-        
-        $fullName = $this->_firstName . $space . $this->_lastName;
-        return ucfirst($fullName);
+    function getEmail()
+    {
+        return $this->_email;
     }
 
 
@@ -53,8 +64,19 @@ class Blogger {
      * Retrieves the file name stored for this blogger's profile photo.
      * @return String blogger's profile image file name
      */
-    function getImage() {
+    function getImage()
+    {
         return $this->_image;
+    }
+
+
+    /**
+     * Retrieves the value stored as this blogger's blog count.
+     * @return int blogger's blog ccount
+     */
+    function getBlogCount()
+    {
+        return $this->_blogCount;
     }
 
 
@@ -62,7 +84,8 @@ class Blogger {
      * Retrieves the value stored as this blogger's last blog entry.
      * @return String blogger's last blog content
      */
-    function getLastBlog() {
+    function getLastBlog()
+    {
         return $this->_lastBlog;
     }
 
@@ -71,20 +94,32 @@ class Blogger {
 
 
     /**
-     * Sets the value of this blogger's first name.
-     * @param $value String blogger's first name
+     * Sets the value of this blogger's database id.
+     * @param $value int blogger's database id
      */
-    function setFirstName($value) {
-        $this->_firstName = $value;
+    function setID($value)
+    {
+        $this->_id = $value;
     }
 
 
     /**
-     * Sets the value of this blogger's last name.
-     * @param @value String blogger's last name
+     * Sets the value of this blogger's user name.
+     * @param $value String blogger's user name
      */
-    function setLastName($value) {
-        $this->_lastName = $value;
+    function setUserName($value)
+    {
+        $this->_userName = $value;
+    }
+
+
+    /**
+     * Sets the value of this blogger's email address.
+     * @param $value String blogger's email address
+     */
+    function setEmail()
+    {
+        $this->_email = $value;
     }
 
 
@@ -92,8 +127,29 @@ class Blogger {
      * Sets the file name stored for this blogger's profile photo.
      * @param $value String blogger's profile image file name
      */
-    function setImage($value) {
+    function setImage($value)
+    {
         $this->_image = $value;
+    }
+
+
+    /**
+     * Sets the value of this blogger's bio.
+     * @param $value String blogger's bio description
+     */
+    function setBio($value)
+    {
+        $this->_bio = $value;
+    }
+
+
+    /**
+     * Sets the value of this blogger's current blog count.
+     * @param $value int number of blogs in database for this blog
+     */
+    function setBlogCount($value)
+    {
+        $this->_blogCount = $value;
     }
 
 
@@ -101,7 +157,8 @@ class Blogger {
      * Sets the value stored as this blogger's last blog entry.
      * @param $value String blogger's last blog content
      */
-    function setLastBlos($value) {
+    function getLastBlog($value)
+    {
         $this->_lastBlog = $value;
     }
 }
