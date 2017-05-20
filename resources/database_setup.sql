@@ -4,8 +4,8 @@ CREATE TABLE bloggers (
   userName VARCHAR(30) NOT NULL UNIQUE,
   email VARCHAR(255) NOT NULL UNIQUE,
   image VARCHAR(35) DEFAULT anon.png,
-  bio TEXT;
-  password VARCHAR(255)
+  bio TEXT DEFAULT 'No bio entered...';
+  password VARCHAR(255) NOT NULL
 ) ENGINE=INNODB;
 
 -- Create blogs table
@@ -19,3 +19,7 @@ CREATE TABLE blogs (
   dateEdited TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (author) REFERENCES bloggers(id)
 ) ENGINE=INNODB;
+
+
+-- Pull date from timestamp
+SELECT DATE_FORMAT(dateEdited, "%m/%d/%y")

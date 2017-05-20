@@ -34,6 +34,29 @@ class DbOperator
 // METHODS - BLOGGER INFORMATION
 
 
+    public function getBlogger($id) {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare(
+            'SELECT id, userName, email, image, bio' .
+            'FROM bloggers ' .
+            'WHERE id=:id'
+            );
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        
+        // Execute PDO Statement
+        $stmt->execute();
+        $results = $stmt->fetch( PDO::FETCH_ASSOC );
+        
+        $blogger = new Blogger($results['userName'], $results['email']);
+        $blogger->setImage($results['image']);
+        $blogger->setBio($results['bio']);
+        $blogger->setBlogCount($this->getBlogCount($id));
+        $blogger->setLastBlog($this->getLastSummary($id));
+    }
+
+
     /**
      * Add a User/Blogger
      *
@@ -46,18 +69,16 @@ class DbOperator
     public function addBlogger($blogger)
     {
         // Create Prepared Statement
-        $stmt = $this->_conn->prepare('
-            INSERT INTO bloggers
-                (userName, email, firstName, lastName, image, bio)
-            VALUES
-                (:userName, :email, :fName, :lName, :image, :bio)
-            ');
+        $stmt = $this->_conn->prepare(
+            'INSERT INTO bloggers ' .
+            '(userName, email, image, bio)' .
+            'VALUES ' .
+            '(:userName, :email, :image, :bio)'
+            );
         
         // Bind Statement Parameters
         $stmt->bindParam(':userName', $blogger->getUserName(), PDO::PARAM_STR);
         $stmt->bindParam(':email', $blogger->getEmail(), PDO::PARAM_STR);
-        $stmt->bindParam(':fName', $blogger->getFirstName(), PDO::PARAM_STR);
-        $stmt->bindParam(':lName', $blogger->getLastName(), PDO::PARAM_STR);
         $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
         $stmt->bindParam(':bio', $blogger->getBio(), PDO::PARAM_STR);
         
@@ -83,23 +104,19 @@ class DbOperator
     public function modifyBlogger($blogger)
     {
         // Create Prepared Statement
-        $stmt = $this->_conn->prepare('
-            UPDATE bloggers
-            SET
-                userName=:userName,
-                email=:email,
-                firstName=:fname,
-                lastName=:lname,
-                image=:image,
-                bio=:bio
-            WHERE id=:id
-            ');
+        $stmt = $this->_conn->prepare(
+            'UPDATE bloggers' .
+            'SET' .
+                'userName=:userName,' .
+                'email=:email,' .
+                'image=:image,' .
+                'bio=:bio' .
+            'WHERE id=:id'
+            );
         
         // Bind Statement Parameters
         $stmt->bindParam(':userName', $blogger->getUserName(), PDO::PARAM_STR);
         $stmt->bindParam(':email', $blogger->getEmail(), PDO::PARAM_STR);
-        $stmt->bindParam(':fname', $blogger->getFirstName(), PDO::PARAM_STR);
-        $stmt->bindPAram(':lname', $blogger->getLastNameO(), PDO::PARAM_STR);
         $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
         $stmt->bindParam(':bio', $blogger->getBio(), PDO::PARAM_STR);
         $stmt->bindParam(':id', $blogger->getID(), PDO::PARAM_INT);
@@ -113,15 +130,17 @@ class DbOperator
     }
 
 
+// METHODS - SUB-ROUTINES
+
+
     private function emailExists($email)
     {
         // Create Prepared Statement
-        $stmt = $this->_conn->prepare('
-            SELECT
-                COUNT(*) AS count
-            FROM bloggers
-            WHERE email=:email
-            ');
+        $stmt = $this->_conn->prepare(
+            'SELECT COUNT(*) AS count' .
+            'FROM bloggers' .
+            'WHERE email=:email'
+            );
         
         // Bind Statement Parameters
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -138,12 +157,11 @@ class DbOperator
     private function userExists($userName)
     {
         // Create Prepared Statement
-        $stmt = $this->_conn->prepare('
-            SELECT
-                COUNT(*) AS count
-            FROM bloggers
-            WHERE userName=:user
-            ');
+        $stmt = $this->_conn->prepare(
+            'SELECT COUNT(*) AS count' .
+            'FROM bloggers' .
+            'WHERE userName=:user'
+            );
         
         // Bind Statement Parameters
         $stmt->bindParam(':user', $userName, PDO::PARAM_STR);
@@ -154,5 +172,54 @@ class DbOperator
         // Return results
         if ($results['count'] > 0) return true;
         else return false;
+    }
+
+
+    private function idExists($id)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare(
+            'SELECT COUNT(*) AS count' .
+            'FROM bloggers' .
+            'WHERE id=:id'
+            );
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        
+        // Execute PDO Statement
+        $results = $stmt->execute();
+        
+        // Return results
+        if ($results['count'] > 0) return true;
+        else return false;
+    }
+
+
+    private function getBlogCount($id) {
+        
+    }
+
+
+    private function getLastSummary($id) {
+        $stmt = 'SELECT content FROM blogs WHERE author=:id ORDER BY dateAdded DESC LIMIT 1';
+    }
+
+
+    /**
+     * Creates a new blogger object using the specified data array.  This
+     * method expects a row of results from a database query.  The results must
+     * include the fields: id, userName, email, image, and bio.  Data to
+     * populate the Blogger object's lastBlog and blogCount fields are pulled
+     * from the database using the supplied id value.
+     * @param $data array row of results used to create Blogger
+     * @return Blogger new Blogger object
+     */
+    private function createBlogger($data) {
+        $newblogger = new Blogger($data['userName'], $data['email']);
+        $newblogger->setImage($data['image']);
+        $newblogger->setBio($data['bio']);
+        $newblogger->setBlogCount($this->getBlogCount($data['id']));
+        $newblogger->setLastBlog($this->getLastSummary($data['id']));
     }
 }
