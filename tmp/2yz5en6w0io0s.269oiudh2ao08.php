@@ -20,31 +20,31 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-2 sidenav">
+    <div class="col-sm-2 sidenav">
       <section class="frame">
         <h2 class="text-center">Blog Site</h2>
         <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
         <nav>
           <a href="<?= $BASE ?>">Home ></a><br />
-          <?php if ($user): ?>
+          <?php if ($user === true): ?>
             
               <a href="<?= '/myblogs/' . $current->getID() ?>">My Blogs ></a><br />
               <a href="/create">Create Blog ></a><br />
             
             <?php else: ?>
-              <a href="/register">Become A Blogger</a><br />
+              <a href="register">Become A Blogger</a><br />
             
           <?php endif; ?>
-          <a href="/about">About Us ></a><br />
+          <a href="about">About Us ></a><br />
           <?php if ($user): ?>
             
-              <a href="/logout">Logout</a><br />
+              <a href="logout">Logout ></a><br />
             
             <?php else: ?>
-              <a href="/login">Login</a>
+              <a href="login">Login ></a>
             
           <?php endif; ?>
         </nav>
       </section>
     </div>
-    <div class="col-md-10">
+    <div class="col-sm-10">

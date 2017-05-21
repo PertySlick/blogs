@@ -4,6 +4,23 @@
 class Controller {
     
     
+    public function checkLogin($f3) {
+        if ($_SESSION['user'] === true) {
+            $f3->set('user', true);
+            $f3->set('current', $_SESSION['current']);
+        } else {
+            $f3->set('user', false);
+        }
+    }
+    
+    
+    public function home($f3) {
+        $operator = new DbOperator();
+        $bloggers = $operator->getAllBloggers();
+        $f3->set('bloggers', $bloggers);
+    }
+
+
     public function register($f3) {
         // Set environment tokens
         $f3->mset(array(
@@ -15,7 +32,7 @@ class Controller {
             //'current' => $this->makeBlogger()
         ));
         
-        // If POST data,
+        // If POST data indicates 'create user'
         if (isset($_POST['action']) && $_POST['action'] == 'create') {
             $operator = new DbOperator();
             
@@ -34,11 +51,12 @@ class Controller {
                 'bio' => $bio
             );
             
+            // Create database entry and new Blogger instance
             $blogger = $this->createBlogger($data);
-
             $newID = $operator->addBlogger($blogger, $password);
             $blogger->setID($newID);
             
+            // Store Blogger in SESSION and set toggle for logged in
             $_SESSION['current'] = $blogger;
             $_SESSION['user'] = true;
             

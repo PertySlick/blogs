@@ -20,6 +20,7 @@
           <a href="{{ 'blogs/' . @blogger->getID() }}">view blogs</a>
           <span class="pull-right" style="display:inline;">Total: {{ @blogger->getBlogCount() }}</span>
         </div>
+        <p class="text-center">Something from my latest blog:</p>
         <p>{{ @blogger->getLastBlog() }}</p>
       </div>
     </div>
