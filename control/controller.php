@@ -4,14 +4,12 @@
 class Controller {
     
     
-    public function __construct() {
-        // Empty constructor
-    }
-    
-    
-    public function register(&$f3) {
-        $f3->set('desc', 'Register');
-        $f3->set('title', 'Register');
+    public function register($f3) {
+        // Set environment tokens
+        $f3->mset(array(
+            'description' => 'Register New Blogger',
+            'title' => 'Register'
+        ));
     }
     
     
