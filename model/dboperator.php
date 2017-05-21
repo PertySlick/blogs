@@ -7,7 +7,7 @@ class DbOperator
 // FIELDS AND OBJECTS
 
     const SUMMARY_LENGTH = 250;     // Amount of text in blog summary
-    private $_conn;                         // Database Connection Object
+    private $_conn;                 // Database Connection Object
 
 
 // CONSTRUCTOR
@@ -44,27 +44,19 @@ class DbOperator
     public function getBlogger($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
-            'SELECT id, userName, email, image, bio' .
+            'SELECT id, userName, email, image, bio ' .
             'FROM bloggers ' .
-            'WHERE id=:id'
+            'WHERE id=' . $id
             );
         
         // Bind Statement Parameters
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        //$stmt->bindParam(':id', $id, PDO::PARAM_INT);
         
         // Execute PDO Statement
         $stmt->execute();
         $results = $stmt->fetch( PDO::FETCH_ASSOC );
         
-        /*
-        $blogger = new Blogger($results['userName'], $results['email']);
-        $blogger->setImage($results['image']);
-        $blogger->setBio($results['bio']);
-        $blogger->setBlogCount($this->getBlogCount($id));
-        $blogger->setLastBlog($this->getLastSummary($id));
-        */
-        
-        $blogger = createBlogger($results);
+        $blogger = $this->createBlogger($results);
         
         return $blogger;
     }
@@ -82,13 +74,16 @@ class DbOperator
         $bloggers = array();
         
         // Query database for blogger id numbers
-        $stmt = 'SELECT id FROM bloggers';
-        $results = $_conn->query($stmt);
+        $stmt = $this->_conn->prepare(
+            'SELECT id ' .
+            'FROM bloggers'
+            );
+        $stmt->execute();
         
         // Create a Blogger object for each id and store in array
-        if ($results->rowCount() > 0) {
-            foreach ($results as $result) {
-                $bloggers[] = getBlogger($result['id']);
+        if ($stmt->rowCount() > 0) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $bloggers[] = $this->getBlogger($row['id']);
             }
             return $bloggers;                   // Return array of bloggers
         } else {
@@ -294,10 +289,12 @@ class DbOperator
      * @return Blogger new Blogger object
      */
     private function createBlogger($data) {
-        $newblogger = new Blogger($data['id'], $data['userName'], $data['email']);
-        $newblogger->setImage($data['image']);
-        $newblogger->setBio($data['bio']);
-        $newblogger->setBlogCount($this->getBlogCount($data['id']));
-        $newblogger->setLastBlog($this->getLastSummary($data['id']));
+        $newBlogger = new Blogger($data['id'], $data['userName'], $data['email']);
+        $newBlogger->setImage($data['image']);
+        $newBlogger->setBio($data['bio']);
+        $newBlogger->setBlogCount($this->getBlogCount($data['id']));
+        $newBlogger->setLastBlog($this->getLastSummary($data['id']));
+        
+        return $newBlogger;
     }
 }

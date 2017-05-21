@@ -11,11 +11,12 @@
     
 
     $f3->route('GET /', function($f3) {                     // Default Route
-        //require_once 'debug_bloggers.php';                // Debug Setup
-        //var_dump($bloggers);
-        //$f3->set('bloggers', $bloggers);
-
+        $operator = new DbOperator();
         
+        $bloggers = $operator->getAllBloggers();
+        
+        $f3->set('bloggers', $bloggers);
+       
         echo \Template::instance()->render('view/home.html');
       });
     

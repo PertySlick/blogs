@@ -11,6 +11,34 @@ span.input-group-addon {
   width: 130px;
 }
 
+.card {
+  background-color: #9cf;
+  border-radius: 15px;
+  box-shadow: 0px 0px 25px 0px #555;
+  height: 350px;
+  margin: 20px 5px;
+  padding: 10px;
+}
+
+.cardrule {
+  background-color: #09c;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  color: #fff;
+  margin: 10px -10px;
+  padding: 3px 10px;
+}
+
+.img-frame {
+  overflow: hidden;
+  max-height: 138px;
+  width: 100%;
+}
+
+.img-thumbnail {
+  max-height: 138px;
+}
+
 .leftcolumn {
   border-right: 1px solid black;
   padding-left: 10px;

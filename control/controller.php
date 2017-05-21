@@ -55,7 +55,7 @@ class Controller {
         $fileExt = strstr($file['name'],".");
         if (in_array($fileExt, $validFiles)) {
             $fileName = $userName . $fileExt;
-            if(move_uploaded_file($file['tmp_name'], 'images/' . $fileName)) {
+            if(move_uploaded_file($file['tmp_name'], 'images/profiles/' . $fileName)) {
                 return $fileName;
             } else {
                 return 'anon.png';
