@@ -18,14 +18,40 @@
 </head>
 <body>
 
-<div class="container" style="height:100%;position:relative;">
+<div class="container">
   <div class="row">
     <div class="col-md-3 sidenav">
       <div class="container-fluid">
         <div class="row">
           <div class="col-xs-12">
-            <h1>Blog Site</h1>
-            <img src="/images/trumpet.png" alt="Brand Image" />
+            <h1 class="text-center">Blog Site</h1>
+            <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="{{ @BASE }}">Home ></a><br />
+            <check if="{{ @user }}">
+              <true>
+                {{ @current->getID() }}
+                <a href="{{ '/myblogs/' . @current->getID() }}">My Blogs ></a><br />
+                <a href="/create">Create Blog ></a><br />
+              </true>
+              <false>
+                <a href="/register">Become A Blogger</a><br />
+              </false>
+            </check>
+            <a href="/about">About Us ></a><br />
+            <check if="{{ @user }}">
+              <true>
+                <a href="/logout">Logout</a><br />
+              </true>
+              <false>
+                <a href="/login">Login</a>
+              </false>
+            </check>
+            
+            
           </div>
         </div>
       </div>

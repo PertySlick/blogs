@@ -18,13 +18,40 @@
 </head>
 <body>
 
-<div class="container" style="height:100%;position:relative;">
+<div class="container">
   <div class="row">
     <div class="col-md-3 sidenav">
       <div class="container-fluid">
         <div class="row">
           <div class="col-xs-12">
-            SideNav
+            <h1 class="text-center">Blog Site</h1>
+            <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="<?= $BASE ?>">Home ></a><br />
+            <?php if ($user): ?>
+              
+                <?= $current->getID().PHP_EOL ?>
+                <a href="<?= '/myblogs' . $current->getID() ?>">My Blogs ></a><br />
+                <a href="/create">Create Blog ></a><br />
+              
+              <?php else: ?>
+                <a href="/register">Become A Blogger</a><br />
+              
+            <?php endif; ?>
+            <a href="/about">About Us ></a><br />
+            <?php if ($user): ?>
+              
+                <a href="/logout">Logout</a><br />
+              
+              <?php else: ?>
+                <a href="/login">Login</a>
+              
+            <?php endif; ?>
+            
+            
           </div>
         </div>
       </div>

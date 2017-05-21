@@ -56,11 +56,17 @@ class DbOperator
         $stmt->execute();
         $results = $stmt->fetch( PDO::FETCH_ASSOC );
         
+        /*
         $blogger = new Blogger($results['userName'], $results['email']);
         $blogger->setImage($results['image']);
         $blogger->setBio($results['bio']);
         $blogger->setBlogCount($this->getBlogCount($id));
         $blogger->setLastBlog($this->getLastSummary($id));
+        */
+        
+        $blogger = createBlogger($results);
+        
+        return $blogger;
     }
 
 
@@ -287,7 +293,7 @@ class DbOperator
      * @return Blogger new Blogger object
      */
     private function createBlogger($data) {
-        $newblogger = new Blogger($data['userName'], $data['email']);
+        $newblogger = new Blogger($data['id'], $data['userName'], $data['email']);
         $newblogger->setImage($data['image']);
         $newblogger->setBio($data['bio']);
         $newblogger->setBlogCount($this->getBlogCount($data['id']));
