@@ -3,7 +3,6 @@ html, body, .container {
 }
 
 .sidenav {
-  background-color: #555;
   height: 100%;
 }
 
@@ -12,16 +11,50 @@ span.input-group-addon {
   width: 130px;
 }
 
+.leftcolumn {
+  border-right: 1px solid black;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.rightcolumn {
+  border-left: 1px solid black;
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+
+
+.frame {
+  background-color: #dde;
+  overflow:auto;
+  padding: 10px;
+}
+
 .input-group {
-  width: 90%;
+  width: 100%;
 }
 
 .input-group-addon label {
   margin-bottom: 0px;
 }
 
+/*Used in conjuction with .toplabel element*/
+.labeltop {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
 .row {
  height: 100%
+}
+
+.sep-field {
+  margin-top: 8px;
+}
+
+.sep-bottom {
+  padding-bottom: 15px;
 }
 
 .shadebox {
@@ -46,8 +79,32 @@ span.input-group-addon {
   margin-bottom: 15px;
 }
 
+/*Used in conjuction with .labeltop element*/
+.toplabel {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-width: 0px;
+  margin-bottom: 0px;
+}
+
+nav.frame {
+  height: 100%;
+}
+section.frame {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
 #image {
   display: none;
+}
+
+#notepad {
+  display:inline;
+  float: right;
+  margin-top: 15px;
+  width: 100px;
 }
 
 #trumpet {

@@ -6,7 +6,7 @@ class DbOperator
 
 // FIELDS AND OBJECTS
 
-    private const SUMMARY_LENGTH = 250;     // Amount of text in blog summary
+    const SUMMARY_LENGTH = 250;     // Amount of text in blog summary
     private $_conn;                         // Database Connection Object
 
 
@@ -173,7 +173,7 @@ class DbOperator
 // METHODS - SUB-ROUTINES
 
 
-    private function emailExists($email)
+    public function emailExists($email)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
@@ -195,7 +195,7 @@ class DbOperator
     }
 
 
-    private function userExists($userName)
+    public function userExists($userName)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
@@ -217,7 +217,7 @@ class DbOperator
     }
 
 
-    private function idExists($id)
+    public function idExists($id)
     {
         
         $stmt = $this->_conn->prepare(
@@ -239,10 +239,10 @@ class DbOperator
     }
 
 
-    private function getBlogCount($id) {
+    public function getBlogCount($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
-            'SELECT COUNT() as count ' .
+            'SELECT COUNT(*) as count ' .
             'FROM blogs ' .
             'WHERE author=:id'
             );
@@ -258,7 +258,7 @@ class DbOperator
     }
 
 
-    private function getLastSummary($id) {
+    public function getLastSummary($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
             'SELECT content ' .
@@ -275,7 +275,7 @@ class DbOperator
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($results->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             return substr($results['content'], 0, SUMMARY_LENGTH);
         } else {
             return 'User has not submitted a blog just yet...';

@@ -9,19 +9,87 @@ class Controller {
         $f3->mset(array(
             'description' => 'Register New Blogger',
             'title' => 'Register',
-            'user' => true,
-            'current' => $this->makeBlogger()
+            
+            // Temporary Objects TODO: REMOVE
+            //'user' => true,
+            //'current' => $this->makeBlogger()
         ));
+        
+        // If POST data,
+        if (isset($_POST['action']) && $_POST['action'] == 'create') {
+            $operator = new DbOperator();
+            
+            $id = -1;
+            $userName = $_POST['userName'];
+            $email = $_POST['email'];
+            $password = sha1($_POST['password']);
+            $image = $this->processFile($_FILES['image'], $userName);
+            $bio = $_POST['bio'];
+            
+            $data = array(
+                'id' => $id,
+                'userName' => $userName,
+                'email' => $email,
+                'password' => $password,
+                'image' => $image,
+                'bio' => $bio
+            );
+            
+            $blogger = $this->createBlogger($data);
+
+            $newID = $operator->addBlogger($blogger);
+            $blogger->setID($newID);
+            
+            $_SESSION['current'] = $blogger;
+            $_SESSION['user'] = true;
+            
+            $f3->reroute('GET /');
+        }
     }
     
-    
-    private function makeBlogger() {
-        $current = new Blogger('PertySlick', 'perty_slick@outlook.com');
-        $current->setImage('Perty Slick.png');
-        $current->setBio('This is my short biography.  Nothing fantastic really.  Just trying to fill up space...');
-        $current->setBlogCount(20);
-        $current->setLastBlog('This is my short previous blog summary.  Nothing fantastic really.  Just trying to fill up space...');
+    // Validates and moves uploaded file.  Returns file name
+    private function processFile($file, $userName) {
+        // Valid file extensions
+        $validFiles = array('.gif','.png','.jpg','.jpeg');
         
-        return $current;
+        // Grab files extension and verify acceptable
+        $fileExt = strstr($file['name'],".");
+        if (in_array($fileExt, $validFiles)) {
+            $fileName = $userName . $fileExt;
+            if(move_uploaded_file($file['tmp_name'], 'images/' . $fileName)) {
+                return $fileName;
+            } else {
+                return 'anon.png';
+            }
+        }
+    }
+    
+    // Ensures password and verfiy value match
+    private function verifyMatch($password, $verify) {
+        
+    }
+    
+    /**
+     * Creates a new blogger object using the specified data array.  This
+     * method expects a row of results from a database query.  The results must
+     * include the fields: id, userName, email, image, and bio.  Data to
+     * populate the Blogger object's lastBlog and blogCount fields are pulled
+     * from the database using the supplied id value.
+     * @param $data array row of results used to create Blogger
+     * @return Blogger new Blogger object
+     */
+    private function createBlogger($data) {
+        $operator = new DbOperator();
+        
+        $newblogger = new Blogger($data['id'], $data['userName'], $data['email']);
+        $newblogger->setImage($data['image']);
+        $newblogger->setBio($data['bio']);
+        //$newblogger->setBlogCount($operator->getBlogCount($data['id']));
+        //$newblogger->setLastBlog($operator->getLastSummary($data['id']));
+        
+        echo '<pre>';
+        var_dump($newBlogger);
+        echo '</pre>';
+        return $newBlogger;
     }
 }

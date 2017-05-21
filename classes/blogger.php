@@ -1,7 +1,7 @@
 <?php
 
 class Blogger {
-    const DEFAULT_IMAGE = "male.png";
+    const DEFAULT_IMAGE = "anon.png";
 
     private $_id;
     private $_userName;
@@ -17,11 +17,13 @@ class Blogger {
     /**
      * Creates an instance of a Blogger object.  This object is used to store
      * commonly used details of a site user.
+     * @param $id int row id of blogger in database
      * @param $userName String blogger's user name
      * @param $email String blogger's email eddress
      */
-    function __construct($userName, $email)
+    function __construct($id, $userName, $email)
     {
+        $this->setID($id);
         $this->setUserName($userName);
         $this->setEmail($email);
     }
