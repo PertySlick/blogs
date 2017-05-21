@@ -106,14 +106,14 @@ class DbOperator
      * @param $blogger Blogger object storing user details
      * @return int database row id of added blogger data
      */
-    public function addBlogger($blogger)
+    public function addBlogger($blogger, $password)
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
             'INSERT INTO bloggers ' .
-            '(userName, email, image, bio)' .
+            '(userName, email, image, bio, password)' .
             'VALUES ' .
-            '(:userName, :email, :image, :bio)'
+            '(:userName, :email, :image, :bio, :password)'
             );
         
         // Bind Statement Parameters
@@ -121,6 +121,7 @@ class DbOperator
         $stmt->bindParam(':email', $blogger->getEmail(), PDO::PARAM_STR);
         $stmt->bindParam(':image', $blogger->getImage(), PDO::PARAM_STR);
         $stmt->bindParam(':bio', $blogger->getBio(), PDO::PARAM_STR);
+        $stmt->bindParam(':password', $password, PDO::PARAM_STR);
         
         // Execute PDO Statement
         try {

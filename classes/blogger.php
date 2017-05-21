@@ -7,6 +7,7 @@ class Blogger {
     private $_userName;
     private $_email;
     private $_image;
+    private $_bio;
     private $_blogCount;
     private $_lastBlog;
 
@@ -73,6 +74,16 @@ class Blogger {
 
 
     /**
+     * Retrieves the value stored for this blogger's profile bio.
+     * @return String blogger's biography
+     */
+    function getBio()
+    {
+        return $this->_bio;
+    }
+
+
+    /**
      * Retrieves the value stored as this blogger's blog count.
      * @return int blogger's blog ccount
      */
@@ -119,7 +130,7 @@ class Blogger {
      * Sets the value of this blogger's email address.
      * @param $value String blogger's email address
      */
-    function setEmail()
+    function setEmail($value)
     {
         $this->_email = $value;
     }

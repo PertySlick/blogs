@@ -30,20 +30,19 @@ class Controller {
                 'id' => $id,
                 'userName' => $userName,
                 'email' => $email,
-                'password' => $password,
                 'image' => $image,
                 'bio' => $bio
             );
             
             $blogger = $this->createBlogger($data);
 
-            $newID = $operator->addBlogger($blogger);
+            $newID = $operator->addBlogger($blogger, $password);
             $blogger->setID($newID);
             
             $_SESSION['current'] = $blogger;
             $_SESSION['user'] = true;
             
-            $f3->reroute('GET /');
+            $f3->reroute('/');
         }
     }
     
@@ -81,15 +80,14 @@ class Controller {
     private function createBlogger($data) {
         $operator = new DbOperator();
         
-        $newblogger = new Blogger($data['id'], $data['userName'], $data['email']);
-        $newblogger->setImage($data['image']);
-        $newblogger->setBio($data['bio']);
+        $newBlogger = new Blogger($data['id'], $data['userName'], $data['email']);
+        echo $data['email'] . "<br />";
+        echo 'Blogger MADE';
+        $newBlogger->setImage($data['image']);
+        $newBlogger->setBio($data['bio']);
         //$newblogger->setBlogCount($operator->getBlogCount($data['id']));
         //$newblogger->setLastBlog($operator->getLastSummary($data['id']));
         
-        echo '<pre>';
-        var_dump($newBlogger);
-        echo '</pre>';
         return $newBlogger;
     }
 }
