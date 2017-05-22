@@ -149,6 +149,7 @@ class Controller {
             'title' => $blog->getTitle(),
             'blogTitle' => $blog->getTitle(),
             'blogContent' => $content,
+            'wordCount' => $blog->getWordCount(),
             'dateAdded' => $dateAdded,
             'dateEdited' => $dateEdited,
             'author' => $blog->getAuthor(),

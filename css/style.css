@@ -29,7 +29,7 @@ span.input-group-addon {
 }
 
 .blogrule {
-  background-color: #fff;
+  background-color: #ccc;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
   color: #000;
@@ -84,6 +84,10 @@ span.input-group-addon {
   max-height: 138px;
 }
 
+.inline {
+  display: inline;
+}
+
 .input-wrapper {
   height: 100%;
   margin: 15px;
@@ -114,7 +118,7 @@ span.input-group-addon {
 }
 
 .frame {
-  background-color: #dde;
+  /*background-color: #dde;*/
   overflow:auto;
   padding: 10px;
 }

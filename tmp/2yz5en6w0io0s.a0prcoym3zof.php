@@ -5,11 +5,11 @@
     <img src="<?= 'images/profiles/' . $authorImage ?>" class="img-thumbnail img-lrg pull-right" alt="<?= 'See More By ' . $authorName ?>" />
   </a>
   <h1 class="text-center"><?= $blogTitle ?></h1>
-  <h4>Author: <a href="<?= 'myblogs/' . $author ?>"><?= $authorName ?></a></h4>
-  <h4>Date: <?= $dateAdded ?></h4>
+  <h4><a href="<?= 'myblogs/' . $author ?>"><?= $authorName ?></a>
+  <span class="pull-right inline"><?= $dateAdded ?></span></h4>
   <div class="blogrule">
     Word Count: <?= $wordCount.PHP_EOL ?>
-    <span class="pull-right" style="display:inline;">Last Edited: <?= $dateEdited ?></span>
+    <span class="pull-right inline">Last Edited: <?= $dateEdited ?></span>
   </div>
   <p class="blog-content"><?= $this->raw($blogContent) ?></p>
 
