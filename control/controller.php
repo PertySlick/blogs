@@ -130,6 +130,31 @@ class Controller {
             $f3->reroute('/');
         }
     }
+    
+    
+    public function viewBlog($f3, $id) {
+        $operator = new DbOperator();
+        $blog = $operator->getBlog($id);
+        $author = $operator->getBlogger($blog->getAuthor());
+        
+        // Date formats
+        $tempDate = strtotime($blog->getDateAdded());
+        $dateAdded = date('F jS, Y', $tempDate);
+        $tempDate = strtotime($blog->getDateEdited());
+        $dateEdited = date('F jS, Y', $tempDate);
+        
+        $f3->mset(array(
+            'description' => 'Viewing A Blog',
+            'title' => $blog->getTitle(),
+            'blogTitle' => $blog->getTitle(),
+            'blogContent' => $blog->getContent(),
+            'dateAdded' => $dateAdded,
+            'dateEdited' => $dateEdited,
+            'author' => $blog->getAuthor(),
+            'authorName' => $author->getUserName(),
+            'authorImage' => $author->getImage()
+        ));
+    }
 
 
     public function addBlog($f3) {

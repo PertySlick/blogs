@@ -35,6 +35,12 @@
         echo \Template::instance()->render('view/blogedit.html');
     });
     
+    // User wants to view a blog
+    $f3->route('GET /@id', function($f3,$params) use ($controller) {
+       $controller->viewBlog($f3, $params['id']);
+       echo \Template::instance()->render('view/viewblog.html');
+    });
+    
     // User wants to login and access registered member features
     $f3->route('GET|POST /login', function($f3) use ($controller) {
         $controller->login($f3);

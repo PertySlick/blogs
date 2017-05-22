@@ -11,6 +11,10 @@ span.input-group-addon {
   width: 130px;
 }
 
+.blog-content {
+  font-size: 1.5em;
+}
+
 .blog-emblem {
   background-color: #000;
   border-radius: 100px;
@@ -22,6 +26,16 @@ span.input-group-addon {
   margin-right: 50px;
   text-align: center;
   width: 150px;
+}
+
+.blogrule {
+  background-color: #fff;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  color: #000;
+  margin: 10px -10px;
+  padding: 3px 10px;
+  width: 100%;
 }
 
 .card {
@@ -66,6 +80,12 @@ span.input-group-addon {
   border-right: 1px solid black;
   padding-left: 10px;
   padding-right: 5px;
+}
+
+.img-lrg {
+  max-height: 300px;
+  max-width: 300px;
+  min-height: 250px;
 }
 
 .rightcolumn {
