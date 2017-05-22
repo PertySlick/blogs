@@ -217,6 +217,22 @@ class DbOperator
 // METHODS - BLOG OPERATIONS
 
 
+    public function getBlog($id) {
+        // Prepare PDO statement
+        $stmt = $this->_conn->prepare(
+            'SELECT * ' .
+            'FROM blogs ' .
+            'WHERE id=' . $id
+        );
+        
+        //Get Results
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $this->createBlog($data);
+    }
+
+
     public function addBlog($blog) {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
@@ -226,10 +242,29 @@ class DbOperator
         );
         
         // Bind Parameters and execute
-        $stmt->bindParam(':author', $blog->getAuthor(PDO::PARAM_INT));
-        $stmt->bindParam(':title', $blog->getTitle(PDO::PARAM_STR));
-        $stmt->bindParam(':content', $blog->getContent(PDO::PARAM_STR));
-        $stmt->bindParam(':wordCount', $blog->getWordCount(PDO::PARAM_INT));
+        $stmt->bindParam(':author', $blog->getAuthor(), PDO::PARAM_INT);
+        $stmt->bindParam(':title', $blog->getTitle(), PDO::PARAM_STR);
+        $stmt->bindParam(':content', $blog->getContent(), PDO::PARAM_STR);
+        $stmt->bindParam(':wordCount', $blog->getWordCount(), PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    
+    
+    public function editBlog($blog) {
+        // Prepare PDO statement
+        $stmt = $this->_conn->prepare(
+            'UPDATE blogs ' .
+            'SET title=:title,' .
+            'content=:content,' .
+            'wordCount=:wordCount ' .
+            'WHERE id=:id'
+        );
+        
+        // Bind Parameters and execute
+        $stmt->bindParam(':title', $blog->getTitle(), PDO::PARAM_STR);
+        $stmt->bindParam(':content', $blog->getContent(), PDO::PARAM_STR);
+        $stmt->bindParam(':wordCount', $blog->getWordCount(), PDO::PARAM_INT);
+        $stmt->bindParam(':id', $blog->getID(), PDO::PARAM_INT);
         $stmt->execute();
     }
 
@@ -364,5 +399,17 @@ class DbOperator
         $newBlogger->setLastBlog($this->getLastSummary($data['id']));
         
         return $newBlogger;
+    }
+
+
+    // Creates a Blog object for sending to Controller for use
+    private function createBlog($data) {
+        $newBlog= new Blog($data['id'], $data['title'], $data['author']);
+        $newBlog->setContent($data['content']);
+        $newBlog->setWordCount($data['wordCount']);
+        $newBlog->setDateAdded($data['dateAdded']);
+        $newBlog->setDateEdited($data['dateEdited']);
+        
+        return $newBlog;
     }
 }

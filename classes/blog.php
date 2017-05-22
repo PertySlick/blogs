@@ -10,7 +10,7 @@ class Blog {
     private $_content;
     private $_author;
     private $_wordCount;
-    private $_dateCreated;
+    private $_dateAdded;
     private $_dateEdited;
 
 
@@ -83,8 +83,8 @@ class Blog {
      * Retrieves the date this Blog was created.
      * @return String creation date for this Blog
      */
-    public function getDateCreated() {
-        return $this->_dateCreated;
+    public function getDateAdded() {
+        return $this->_dateAdded;
     }
 
 
@@ -150,8 +150,8 @@ class Blog {
      * Sets the value of this Blog's creation date to the supplied value
      * @param $value String new creation date for this Blog
      */
-    public function setDateCreated($value) {
-        $this->_dateCreated = $value;
+    public function setDateAdded($value) {
+        $this->_dateAdded = $value;
     }
 
 

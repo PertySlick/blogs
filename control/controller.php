@@ -137,25 +137,61 @@ class Controller {
         $f3->mset(array(
             'description' => 'Create A New Blog!',
             'title' => 'Blog Creation',
+            'header' => 'What\'s on your mind?',
+            'action' => './create',
+            'submit' => 'create'
         ));
         
         if (isset($_POST['action']) && $_POST['action'] == 'create') {
             $operator = new DbOperator();
-            /*
-            $author = $_SESSION['current']->getID();
-            $id = -1;
-            $title = $_POST['title'];
-            $content = $_POST['content'];
-            $wordCount = str_word_count($content);*/
+
             $data = array(
                 'author' => $_SESSION['current']->getID(),
                 'id' => -1,
                 'title' => $_POST['title'],
                 'content' => $_POST['content'],
-                'wordCount' => str_word_count($content)
+                'wordCount' => str_word_count($_POST['content'])
             );
             $newBlog = $this->createBlog($data);
             $blogID = $operator->addBlog($newBlog);
+        }
+    }
+    
+    
+    public function editBlog($f3, $id) {
+        //TODO: Check if blog id exists
+        $f3->mset(array(
+            'description' => 'Modify A Blog',
+            'title' => 'Modify Blog',
+            'header' => 'Change your mind?',
+            'action' => './edit' . $_SESSION['currentBlog']->getID(),
+            'submit' => 'edit'
+        ));
+        
+        $operator = new DbOperator();
+        
+        if (isset($_POST['action']) && $_POST['action'] == 'edit') {
+            $currentBlog = $_SESSION['currentBlog'];
+            
+            $data = array(
+                'author' => $currentBlog->getAuthor(),
+                'id' => $currentBlog->getID(),
+                'title' => $_POST['title'],
+                'content' => $_POST['content'],
+                'wordCount' => str_word_count($_POST['content'])
+            );
+            
+            $newBlog = $this->createBlog($data);
+            $operator->editBlog($newBlog);
+            $f3->reroute('myblogs');
+        } else {
+            $_SESSION['currentBlog'] = $operator->getBlog($id);
+            $blog = $_SESSION['currentBlog'];
+            
+            $f3->mset(array(
+                'blogTitle' => $blog->getTitle(),
+                'content' => $blog->getContent()
+            ));
         }
     }
 

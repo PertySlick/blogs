@@ -5,14 +5,14 @@
   <h1>What's on your mind?</h1>
 </section>
 <section class="frame">
-  <form action="./create" method="POST" class="form-horizontal">
+  <form action="<?= $action ?>" method="POST" class="form-horizontal">
     <div class="input-group">
       <input type="text" class="form-control" name="title" id="title" value="<?= $blogTitle ?>" />
       <span class="input-group-addon">Title</span>
     </div>
     <div class="shadelabel toplabel sep-field">Blog Entry</div>
     <textarea class="form-control labeltop" name="content" id="content" rows="10"><?= $content ?></textarea>
-    <button class="btn btn-success btn-lg center-block sep-field" type="submit" name="action" id="action" value="create">Save</button>
+    <button class="btn btn-success btn-lg center-block sep-field" type="submit" name="action" id="action" value="<?= $submit ?>">Save</button>
   </form>
 
 </section>

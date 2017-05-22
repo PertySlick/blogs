@@ -29,6 +29,12 @@
         echo \Template::instance()->render('view/blogedit.html');
     });
     
+    // User wants to edit their blog
+    $f3->route('GET|POST /edit@id', function($f3, $params) use ($controller) {
+        $controller->editBlog($f3, $params['id']);
+        echo \Template::instance()->render('view/blogedit.html');
+    });
+    
     // User wants to login and access registered member features
     $f3->route('GET|POST /login', function($f3) use ($controller) {
         $controller->login($f3);
