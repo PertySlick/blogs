@@ -3,34 +3,36 @@
     require_once ('vendor/autoload.php');
     session_start();
     
-    $controller = new Controller();
-    
+    // Initiate fat-free and Controller objects
     $f3 = Base::instance();
     $f3->set('DEBUG', 3);
+    $controller = new Controller();
     
     // Check if visitor is logged in
     $controller->checkLogin($f3);
 
-    $f3->route('GET /', function($f3) use ($controller) {                     // Default Route
+    // Default route home page for arriving visitors or those that logout
+    $f3->route('GET /', function($f3) use ($controller) {
         $controller->home($f3);
         echo \Template::instance()->render('view/home.html');
       });
     
+    // User wants to register and gain access to member features
     $f3->route('GET|POST /register', function($f3) use ($controller) {
         $controller->register($f3);
         echo \Template::instance()->render('view/register.html');
     });
     
-    $f3->route('GET /login', function($f3) use ($controller) {
+    // User wants to login and access registered member features
+    $f3->route('GET|POST /login', function($f3) use ($controller) {
         $controller->login($f3);
         echo \Template::instance()->render('view/login.html');
     });
     
+    // User wants to logout and not have access to member features
     $f3->route('GET /logout', function($f3) use ($controller) {
-        session_destroy();
-        $f3->set('user', false);
-        $f3->clear('current');
-        $f3->reroute('');
+        $controller->logout($f3);
     });
     
+    // Execute route
     $f3->run();

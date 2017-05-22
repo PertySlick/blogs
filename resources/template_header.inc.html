@@ -20,7 +20,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-2 sidenav">
+    <div class="col-sm-2 sidenav no-padding">
       <section class="frame">
         <h2 class="text-center">Blog Site</h2>
         <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
@@ -47,4 +47,4 @@
         </nav>
       </section>
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-10 no-padding">

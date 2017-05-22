@@ -1,0 +1,165 @@
+<?php
+
+class Blog {
+
+// FIELDS
+
+
+    private $_id;
+    private $_title;
+    private $_content;
+    private $_author;
+    private $_wordCount;
+    private $_dateCreated;
+    private $_dateEdited;
+
+
+// CONSTRUCTOR
+
+
+    /**
+     * Creates an instance of a Blog object to store pertinant information
+     * within.
+     * @param $id int database record number of this Blog
+     * @param $title String title given to this Blog
+     * @param #content String content stored for this Blog
+     */
+    public function __construct($id, $title, $content) {
+        $this->setID($id);
+        $this->setTitle($title);
+        $this->setContent($content);
+    }
+
+
+// METHODS - GETTERS
+
+
+    /**
+     * Retrieves the id value stored for this Blog.
+     * @return int database record number for this Blog
+     */
+    public function getID() {
+        return $this->_id;
+    }
+
+
+    /**
+     * Retrieves the title value stored for this Blog.
+     * @return String title for this Blog
+     */
+    public function getTitle() {
+        return $this->_title;
+    }
+
+
+    /**
+     * Retrieves the content stored for this Blog.
+     * @return String content for this Blog
+     */
+    public function getContent() {
+        return $this->_content;
+    }
+
+
+    /**
+     * Retrieves the id value stored for the author of this Blog.
+     * @return int database record number for the author of this Blog
+     */
+    public function getAuthor() {
+        return $this->_author;
+    }
+
+
+    /**
+     * Retrieves the word count value stored for this Blog.
+     * @return int word count for this Blog
+     */
+    public function getWordCount() {
+        return $this->_wordCount;
+    }
+
+
+    /**
+     * Retrieves the date this Blog was created.
+     * @return String creation date for this Blog
+     */
+    public function getDateCreated() {
+        return $this->_dateCreated;
+    }
+
+
+    /**
+     * Retrieves the last date this Blog was edited.
+     * @return String last modified date for this Blog
+     */
+    public function getDateEdited() {
+        return $this->_dateEdited;
+    }
+
+
+// METHODS - SETTERS
+
+
+    /**
+     * Sets the value of this Blog's database record number to the supplied
+     * value.
+     * @param $value int new database record number for this Blog
+     */
+    public function setID($value) {
+        $this->_id = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's title to the supplied value
+     * @param $value String new title for this Blog
+     */
+    public function setTitle($value) {
+        $this->_title = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's content to the supplied value
+     * @param $value String new content for this Blog
+     */
+    public function setContent($value) {
+        $this->_content = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's author to the supplied value
+     * @param $value int new author database record number for this Blog
+     */
+    public function setAuthor($value) {
+        $this->_author = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's word count to the supplied value
+     * @param $value int new word count for this Blog
+     */
+    public function setWordCount($value) {
+        $this->_wordCount = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's creation date to the supplied value
+     * @param $value String new creation date for this Blog
+     */
+    public function setDateCreated($value) {
+        $this->_dateCreated = $value;
+    }
+
+
+    /**
+     * Sets the value of this Blog's last modified date to the supplied value
+     * @param $value String new last modified date for this Blog
+     */
+    public function setDateEdited($value) {
+        $this->_dateEdited = $value;
+    }
+}

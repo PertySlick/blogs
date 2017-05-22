@@ -14,7 +14,6 @@ class Controller {
     }
     
     public function login($f3) {
-
         if($_POST['action'] == 'login') {
             $operator = new DbOperator();
             $userName = $_POST['userName'];
@@ -23,12 +22,23 @@ class Controller {
             if ($operator->userExists($userName)) {
                 $dbPassword = $operator->getPassword($userName);
                 if ($this->verifyMatch(sha1($password), $dbPassword)) {
-                    echo 'YEEEEEEEEHAW!';
+                    $_SESSION['user'] = true;
+                    $id = $operator->getUserID($userName);
+                    $_SESSION['current'] = $operator->getBlogger($id);
+                    $f3->reroute('/');
                 } else {
-                    echo 'NOOOOOOOOOOOOOOOOO!';
+                    echo 'NOOOOOOOOOOOOOOOOO!'; // TODO: FINISH
                 }
             }
         }
+    }
+    
+    
+    public function logout($f3) {
+        session_destroy();
+        $f3->set('user', false);
+        $f3->clear('current');
+        $f3->reroute('/');
     }
     
     
@@ -117,6 +127,11 @@ class Controller {
         //$newblogger->setLastBlog($operator->getLastSummary($data['id']));
         
         return $newBlogger;
+    }
+
+
+    private function createBlog($data) {
+        
     }
 
 

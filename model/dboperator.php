@@ -31,7 +31,7 @@ class DbOperator
     }
 
 
-// METHODS - BLOGGER INFORMATION
+// METHODS - BLOGGER OPERATIONS
 
 
     /**
@@ -60,34 +60,52 @@ class DbOperator
         
         return $blogger;
     }
-    
-    
-    public function getUserID($userName) {      // Maybe if null replaces userExists()?
+
+
+    /**
+     * Retrieves the id for the specified user if they exist in the database.
+     * @param $userName String user name to search database for
+     * @return int blogger's database id number
+     */
+    public function getUserID($userName) {      // TODO: Maybe if null replaces userExists()?
+        // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT id ' .
             'FROM bloggers ' .
             'WHERE userName=:userName'
         );
         
+        // Bind parameters and get results
         $stmt->bindParam(':userName', $userName);
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // Return id number retrieved
         return $results['id'];
     }
-    
-    
+
+
+    /**
+     * Retrieves the value stored as the specified user's password from the
+     * database.  This method is meant strictly for login credential
+     * verification.
+     * @param $userName String user name to search database for
+     * @return String value stored as user's password
+     */
     public function getPassword($userName) {
+        // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT password ' .
             'FROM bloggers ' .
             'WHERE userName=:userName'
         );
         
+        // Bind parameters and get results
         $stmt->bindParam(':userName', $userName);
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        // Return password value retrieved
         return $results['password'];
     }
 
@@ -106,7 +124,7 @@ class DbOperator
         // Query database for blogger id numbers
         $stmt = $this->_conn->prepare(
             'SELECT id ' .
-            'FROM bloggers'
+            'FROM bloggers '
             );
         $stmt->execute();
         
@@ -196,6 +214,14 @@ class DbOperator
     }
 
 
+// METHODS - BLOG OPERATIONS
+
+
+    public function addBlog($blog) {
+        
+    }
+
+
 // METHODS - SUB-ROUTINES
 
 
@@ -225,8 +251,8 @@ class DbOperator
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
-            'SELECT COUNT(*) AS count' .
-            'FROM bloggers' .
+            'SELECT COUNT(*) AS count ' .
+            'FROM bloggers ' .
             'WHERE userName=:user'
             );
         

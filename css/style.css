@@ -43,6 +43,15 @@ span.input-group-addon {
   padding: 3px 10px;
 }
 
+.float-panel {
+  background-color: #9cf;
+  border-radius: 10px;
+  margin: auto auto;
+  min-width: 500px;
+  padding: 15px;
+  width: 50%;
+}
+
 .img-frame {
   overflow: hidden;
   max-height: 138px;
@@ -85,6 +94,11 @@ span.input-group-addon {
 .labeltop {
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
+}
+
+.no-padding {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .row {
@@ -136,6 +150,15 @@ section.frame {
   display: block;
   height: 100%;
   width: 100%;
+}
+
+#header {
+  background-image: url('../images/landscape.png');
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  margin-bottom: 15px;
+  position: relative;
 }
 
 #image {
