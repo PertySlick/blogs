@@ -153,6 +153,10 @@ span.input-group-addon {
   padding-bottom: 5px;
 }
 
+.right-indent {
+  padding-right: 60px;
+}
+
 .row {
  height: 100%
 }

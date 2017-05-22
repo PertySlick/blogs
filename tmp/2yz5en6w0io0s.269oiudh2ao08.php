@@ -15,6 +15,10 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <?php if ($fontAwesome): ?>
+    <!-- FONT AWESOME ICONS -->
+    <script src="https://use.fontawesome.com/a5cce48296.js"></script>
+  <?php endif; ?>
 </head>
 <body>
 

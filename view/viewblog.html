@@ -11,7 +11,7 @@
     Word Count: {{ @wordCount }}
     <span class="pull-right" style="display:inline;">Last Edited: {{ @dateEdited }}</span>
   </div>
-  <p class="blog-content">{{ @blogContent }}</p>
+  <p class="blog-content">{{ @blogContent | raw }}</p>
 
 </section>
 

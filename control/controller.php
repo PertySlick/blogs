@@ -136,6 +136,7 @@ class Controller {
         $operator = new DbOperator();
         $blog = $operator->getBlog($id);
         $author = $operator->getBlogger($blog->getAuthor());
+        $content = nl2br($blog->getContent());
         
         // Date formats
         $tempDate = strtotime($blog->getDateAdded());
@@ -147,7 +148,7 @@ class Controller {
             'description' => 'Viewing A Blog',
             'title' => $blog->getTitle(),
             'blogTitle' => $blog->getTitle(),
-            'blogContent' => $blog->getContent(),
+            'blogContent' => $content,
             'dateAdded' => $dateAdded,
             'dateEdited' => $dateEdited,
             'author' => $blog->getAuthor(),
@@ -160,7 +161,8 @@ class Controller {
     public function myBlogs($f3) {
         $f3->mset(array(
             'description' => 'Manage Your Blogs',
-            'title' => 'Blog Management'
+            'title' => 'Blog Management',
+            'fontAwesome' => true
         ));
                 
         $operator = new DbOperator();

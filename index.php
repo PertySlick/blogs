@@ -3,10 +3,11 @@
     require_once ('vendor/autoload.php');
     session_start();
     
-    // Initiate fat-free and Controller objects
-    $f3 = Base::instance();
-    $f3->set('DEBUG', 3);
-    $controller = new Controller();
+    // Initiate fat-free, and Controller objects and set defaults
+    $f3 = Base::instance();                 // Instance of Fat Free object
+    $f3->set('DEBUG', 3);                   // Set Fat Free debug level
+    $controller = new Controller();         // MVC Controller object
+    $f3->set('fontAwesome', false);         // Should include load fontAwesome?
     
     // Check if visitor is logged in
     $controller->checkLogin($f3);
@@ -42,7 +43,7 @@
     });
     
     // User wants to view a blog
-    $f3->route('GET /@id', function($f3,$params) use ($controller) {
+    $f3->route('GET|POST /@id', function($f3,$params) use ($controller) {
        $controller->viewBlog($f3, $params['id']);
        echo \Template::instance()->render('view/viewblog.html');
     });
