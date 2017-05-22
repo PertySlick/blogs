@@ -62,7 +62,6 @@ class Controller {
         session_destroy();
         $f3->set('user', false);
         $f3->clear('current');
-        $f3->reroute('/');
     }
 
 
@@ -202,6 +201,7 @@ class Controller {
             );
             $newBlog = $this->createBlog($data);
             $blogID = $operator->addBlog($newBlog);
+            $f3->reroute('/myblogs');
         }
     }
     
@@ -212,7 +212,7 @@ class Controller {
             'description' => 'Modify A Blog',
             'title' => 'Modify Blog',
             'header' => 'Change your mind?',
-            'action' => './edit' . $_SESSION['currentBlog']->getID(),
+            'action' => './edit' . $id, //$_SESSION['currentBlog']->getID(),
             'submit' => 'edit'
         ));
         
@@ -241,6 +241,17 @@ class Controller {
                 'content' => $blog->getContent()
             ));
         }
+    }
+    
+    
+    /**
+     * Prompts the Model object to remove the blogs database record matching
+     * the specified id number.
+     * @param $id int record number of blog to be removed
+     */
+    public function deleteBlog($f3, $id) {
+        $operator = new DbOperator();
+        $operator->deleteBlog($id);
     }
 
 

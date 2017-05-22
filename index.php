@@ -48,6 +48,12 @@
        echo \Template::instance()->render('view/viewblog.html');
     });
     
+    // User wants to delete a blog
+    $f3->route('GET /delete@id', function($f3, $params) use ($controller) {
+        $controller->deleteBlog($f3, $params['id']);
+        $f3->reroute('/myblogs');
+    });
+    
     // User wants to login and access registered member features
     $f3->route('GET|POST /login', function($f3) use ($controller) {
         $controller->login($f3);
@@ -57,6 +63,7 @@
     // User wants to logout and not have access to member features
     $f3->route('GET /logout', function($f3) use ($controller) {
         $controller->logout($f3);
+        $f3->reroute('/');
     });
     
     // Execute route

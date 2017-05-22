@@ -282,6 +282,19 @@ class DbOperator
         $stmt->bindParam(':id', $blog->getID(), PDO::PARAM_INT);
         $stmt->execute();
     }
+    
+    
+    public function deleteBlog($id) {
+        // Prepare PDO statement
+        $stmt = $this->_conn->prepare(
+            'DELETE FROM blogs ' .
+            'WHERE id=:id'
+        );
+        
+        // Bind parameters and execute
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 
 
 // METHODS - SUB-ROUTINES
