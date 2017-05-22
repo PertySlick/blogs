@@ -16,7 +16,7 @@
         <h4>My blogs:</h4>
         <?php foreach (($blogs?:[]) as $blog): ?>
           <div class="blog-summary">
-            <p><?= $blog->getTitle() ?> - word count <?= $blog->getWordCount() ?> - <?= $blog->getDateAdded() ?></p>
+            <p><a href="<?= $blog->getID() ?>"><?= $blog->getTitle() ?></a> - word count <?= $blog->getWordCount() ?> - <?= $blog->getDateAdded() ?></p>
             <p><?= $blog->getContent() ?></p>
           </div>
         <?php endforeach; ?>

@@ -124,7 +124,7 @@ class Blog {
      * @param $value String new content for this Blog
      */
     public function setContent($value) {
-        $this->_content = $value;
+        $this->_content = filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
     }
 
 

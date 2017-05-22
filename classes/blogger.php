@@ -172,6 +172,6 @@ class Blogger {
      */
     function setLastBlog($value)
     {
-        $this->_lastBlog = $value;
+        $this->_lastBlog = filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
     }
 }
