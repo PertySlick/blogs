@@ -231,6 +231,21 @@ class DbOperator
         
         return $this->createBlog($data);
     }
+    
+    
+    public function getBlogsList($id) {
+        $stmt = $this->_conn->prepare(
+            'SELECT id, title ' .
+            'FROM blogs ' .
+            'WHERE author=:id ' .
+            'ORDER BY id DESC'
+        );
+        
+        // Bind parameters and get results
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public function addBlog($blog) {

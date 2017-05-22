@@ -17,7 +17,7 @@
         </div>
         <p class="text-center"><?= $blogger->getUserName() ?></p>
         <div class="cardrule">
-          <a href="<?= 'myblogs/' . $blogger->getID() ?>">view blogs</a>
+          <a href="<?= 'profile' ?>">view blogs</a>
           <span class="pull-right" style="display:inline;">Total: <?= $blogger->getBlogCount() ?></span>
         </div>
         <p class="text-center">Something from my latest blog:</p>

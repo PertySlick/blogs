@@ -2,7 +2,7 @@
 
 <section class="frame" id="header">
   <img src="images/notepad.png" class="pull-right" id="notepad" alt="Blogging" />
-  <h1>What's on your mind?</h1>
+  <h1><?= $header ?></h1>
 </section>
 <section class="frame">
   <form action="<?= $action ?>" method="POST" class="form-horizontal">

@@ -155,6 +155,26 @@ class Controller {
             'authorImage' => $author->getImage()
         ));
     }
+    
+    
+    public function myBlogs($f3) {
+        $f3->mset(array(
+            'description' => 'Manage Your Blogs',
+            'title' => 'Blog Management'
+        ));
+                
+        $operator = new DbOperator();
+        $blogger = $_SESSION['current'];
+        
+        $blogs = $operator->getBlogsList($blogger->getID());
+        $f3->mset(array(
+            'blogs' => $blogs,
+            'author' => $blogger->getUserName(),
+            'bio' => $blogger->getBio(),
+            'image' => $blogger->getImage()
+        ));
+
+    }
 
 
     public function addBlog($f3) {

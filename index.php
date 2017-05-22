@@ -23,6 +23,12 @@
         echo \Template::instance()->render('view/register.html');
     });
     
+    // User wants to view and manage their blogs
+    $f3->route('GET /myblogs', function($f3) use ($controller) {
+        $controller->myBlogs($f3);
+        echo \Template::instance()->render('view/myblogs.html');
+    });
+    
     // User wants to create a new Blog
     $f3->route('GET|POST /create', function($f3) use ($controller) {
         $controller->addBlog($f3);
