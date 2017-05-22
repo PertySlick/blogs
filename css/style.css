@@ -38,6 +38,11 @@ span.input-group-addon {
   width: 100%;
 }
 
+.blog-summary {
+  border-bottom: 1px solid #aaa;
+  border-top: 1px solid #aaa;
+}
+
 .card {
   background-color: #9cf;
   border-radius: 15px;

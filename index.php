@@ -24,6 +24,12 @@
         echo \Template::instance()->render('view/register.html');
     });
     
+    // USer wants to view another user's profile
+    $f3->route('GET /profile@id', function($f3, $params) use ($controller) {
+        $controller->viewProfile($f3, $params['id']);
+        echo \Template::instance()->render('view/profile.html');
+    });
+    
     // User wants to view and manage their blogs
     $f3->route('GET /myblogs', function($f3) use ($controller) {
         $controller->myBlogs($f3);

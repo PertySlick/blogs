@@ -1,0 +1,35 @@
+<include href="resources/template_header.inc.html" />
+
+<section>
+  <div class="row">           <!-- User Name Header -->
+    <div class="col-12">
+      <h2 class="text-center">{{ @blogger->getUserName() . '\'s Blogs' }}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <section>
+        <h4 class="profile-title">My most recent blog:</h4>
+        <p>{{ @lastBlog }}</p>
+      </section>
+      <section>
+        <h4>My blogs:</h4>
+        <repeat group="{{ @blogs }}" value="{{ @blog }}">
+          <div class="blog-summary">
+            <p>{{ @blog->getTitle() }} - word count {{ @blog->getWordCount() }} - {{ @blog->getDateAdded() }}</p>
+            <p>{{ @blog->getContent() }}</p>
+          </div>
+        </repeat>
+      </section>
+    </div>
+    <div class="col-sm-3">
+      <img src="{{ 'images/profiles/' . $blogger->getImage() }}" class="img-thumbnail center-block" alt="Profile Image" />
+      <h4 class="profile-title">{{ @blogger->getUserName() }}</h4>
+      <p>Bio: {{ @blogger->getBio() }}</p>
+    </div>
+  </div>
+  
+
+</section>
+
+<include href="resources/template_footer.inc.html">

@@ -83,6 +83,24 @@ class Controller {
         $bloggers = $operator->getAllBloggers();
         $f3->set('bloggers', $bloggers);
     }
+    
+    
+    public function viewProfile($f3, $id) {
+        // Set environment tokens
+        $f3->mset(array(
+            'description' => 'View A Profile',
+            'title' => 'Profile View',
+        ));
+        
+        $operator = new DbOperator();
+        $blogger = $operator->getBlogger($id);
+
+        $f3->mset(array(
+            'blogger' => $blogger,
+            'blogs' => $operator->getBlogShortList($id),
+            'lastBlog' => $blogger->getLastBlog()
+        ));
+    }
 
 
     /**

@@ -46,16 +46,16 @@ class DbOperator
         $stmt = $this->_conn->prepare(
             'SELECT id, userName, email, image, bio ' .
             'FROM bloggers ' .
-            'WHERE id=' . $id
+            'WHERE id=:id'
             );
         
         // Bind Statement Parameters
-        //$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         
         // Execute PDO Statement
         $stmt->execute();
         $results = $stmt->fetch( PDO::FETCH_ASSOC );
-        
+
         $blogger = $this->createBlogger($results);
         
         return $blogger;
@@ -246,6 +246,21 @@ class DbOperator
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public function getBlogShortList($author) {
+        $temp = array();
+        $results = array();
+        $blogList = $this->getBlogsList($author);
+
+        foreach ($blogList as $blog) {
+            $tempBlog = $this->getBlog($blog['id']);
+            $tempBlog->setContent(substr($tempBlog->getContent(), 0, $this::SUMMARY_LENGTH));
+            $results[] = $tempBlog;
+        }
+        
+        return $results;
+    }
 
 
     public function addBlog($blog) {
@@ -401,9 +416,9 @@ class DbOperator
         // Return results
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+        $temp = $results['content'];
         if ($stmt->rowCount() > 0) {
-            return substr($results['content'], 0, $this::SUMMARY_LENGTH);
+            return substr($temp, 0, $this::SUMMARY_LENGTH);
         } else {
             return 'User has not submitted a blog just yet...';
         }
