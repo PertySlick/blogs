@@ -218,7 +218,19 @@ class DbOperator
 
 
     public function addBlog($blog) {
+        // Prepare PDO statement
+        $stmt = $this->_conn->prepare(
+            'INSERT INTO blogs ' .
+            '(author, title, content, wordCount, dateAdded) ' .
+            'VALUES (:author, :title, :content, :wordCount, NOW())'
+        );
         
+        // Bind Parameters and execute
+        $stmt->bindParam(':author', $blog->getAuthor(PDO::PARAM_INT));
+        $stmt->bindParam(':title', $blog->getTitle(PDO::PARAM_STR));
+        $stmt->bindParam(':content', $blog->getContent(PDO::PARAM_STR));
+        $stmt->bindParam(':wordCount', $blog->getWordCount(PDO::PARAM_INT));
+        $stmt->execute();
     }
 
 
@@ -328,7 +340,7 @@ class DbOperator
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($stmt->rowCount() > 0) {
-            return substr($results['content'], 0, SUMMARY_LENGTH);
+            return substr($results['content'], 0, $this::SUMMARY_LENGTH);
         } else {
             return 'User has not submitted a blog just yet...';
         }

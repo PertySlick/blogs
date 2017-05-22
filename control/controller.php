@@ -132,7 +132,7 @@ class Controller {
     }
 
 
-    public function createBlog($f3) {
+    public function addBlog($f3) {
         // Set environment tokens
         $f3->mset(array(
             'description' => 'Create A New Blog!',
@@ -148,14 +148,14 @@ class Controller {
             $content = $_POST['content'];
             $wordCount = str_word_count($content);*/
             $data = array(
-                'author' => $_SESSION['current']->getID();
-                'id' => -1;
-                'title' => $_POST['title'];
-                'content' => $_POST['content'];
-                'wordCount' => str_word_count($content);
-            )
-            
-            $operator->addBlog
+                'author' => $_SESSION['current']->getID(),
+                'id' => -1,
+                'title' => $_POST['title'],
+                'content' => $_POST['content'],
+                'wordCount' => str_word_count($content)
+            );
+            $newBlog = $this->createBlog($data);
+            $blogID = $operator->addBlog($newBlog);
         }
     }
 
@@ -208,9 +208,11 @@ class Controller {
     private function createBlog($data) {
         $operator = new DbOperator();
         
-        $newBlog($data['id'], $data['title'], $data['author']);
+        $newBlog= new Blog($data['id'], $data['title'], $data['author']);
         $newBlog->setContent($data['content']);
-        $newBlog->setWordCount($data['wordCount'];
+        $newBlog->setWordCount($data['wordCount']);
+        
+        return $newBlog;
     }
 
 

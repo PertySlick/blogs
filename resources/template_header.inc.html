@@ -28,8 +28,8 @@
           <a href="{{ @BASE }}">Home ></a><br />
           <check if="{{ @user === true }}">
             <true>
-              <a href="{{ '/myblogs/' . @current->getID() }}">My Blogs ></a><br />
-              <a href="/create">Create Blog ></a><br />
+              <a href="{{ 'myblogs/' . @current->getID() }}">My Blogs ></a><br />
+              <a href="create">Create Blog ></a><br />
             </true>
             <false>
               <a href="register">Become A Blogger</a><br />

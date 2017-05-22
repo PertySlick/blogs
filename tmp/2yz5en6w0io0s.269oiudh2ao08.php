@@ -28,8 +28,8 @@
           <a href="<?= $BASE ?>">Home ></a><br />
           <?php if ($user === true): ?>
             
-              <a href="<?= '/myblogs/' . $current->getID() ?>">My Blogs ></a><br />
-              <a href="/create">Create Blog ></a><br />
+              <a href="<?= 'myblogs/' . $current->getID() ?>">My Blogs ></a><br />
+              <a href="create">Create Blog ></a><br />
             
             <?php else: ?>
               <a href="register">Become A Blogger</a><br />
