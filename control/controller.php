@@ -2,8 +2,13 @@
 
 
 class Controller {
-    
-    
+
+
+    /**
+     * Update the fat-free object to reflect the visitor's current member
+     * status.  If the user is logged in, set a toggle and store Blogger data
+     * @param $f3 fat-free instance to operate with
+     */
     public function checkLogin($f3) {
         if ($_SESSION['user'] === true) {
             $f3->set('user', true);
@@ -12,13 +17,27 @@ class Controller {
             $f3->set('user', false);
         }
     }
-    
+
+
+    /**
+     * Controller functions to operate for when visitor wishes to log in to use
+     * member-only features of the site.
+     * @param $f3 fat-free instance to operate with
+     */
     public function login($f3) {
+        //Set environment tokens
+        $f3->mset(array(
+            'description' => 'Register New Blogger',
+            'title' => 'Register',
+        ));
+
+        // If here by POST, see if user name exists
         if($_POST['action'] == 'login') {
             $operator = new DbOperator();
             $userName = $_POST['userName'];
             $password = $_POST['password'];
             
+            // If user exists check password
             if ($operator->userExists($userName)) {
                 $dbPassword = $operator->getPassword($userName);
                 if ($this->verifyMatch(sha1($password), $dbPassword)) {
@@ -32,23 +51,47 @@ class Controller {
             }
         }
     }
-    
-    
+
+
+    /**
+     * Controller functions to operate for when visitor wishes to log out from
+     * member-only features of the site.
+     * @param $f3 fat-free instance to operate with
+     */
     public function logout($f3) {
         session_destroy();
         $f3->set('user', false);
         $f3->clear('current');
         $f3->reroute('/');
     }
-    
-    
+
+
+    /**
+     * Controller functions to operate for when visitor views the main home
+     * page of the site.  All Bloggers currently in the database are retrieved
+     * and made avaialable to the template.
+     * @param $f3 fat-free instance to operate with
+     */
     public function home($f3) {
+        // Set environment tokens
+        $f3->mset(array(
+            'description' => 'See What Our Bloggers Are Up To!',
+            'title' => 'Welcome',
+        ));
+        
+        // Retrieve all Bloggers from database
         $operator = new DbOperator();
         $bloggers = $operator->getAllBloggers();
         $f3->set('bloggers', $bloggers);
     }
 
 
+    /**
+     * Controller functions to operate for when visitor to register as a member
+     * and gain access to member-only features.  When visited via POST, data is
+     * evaulated and processed to complete registration.
+     * @param $f3 fat-free instance to operate with
+     */
     public function register($f3) {
         // Set environment tokens
         $f3->mset(array(
@@ -87,6 +130,37 @@ class Controller {
             $f3->reroute('/');
         }
     }
+
+
+    public function createBlog($f3) {
+        // Set environment tokens
+        $f3->mset(array(
+            'description' => 'Create A New Blog!',
+            'title' => 'Blog Creation',
+        ));
+        
+        if (isset($_POST['action']) && $_POST['action'] == 'create') {
+            $operator = new DbOperator();
+            /*
+            $author = $_SESSION['current']->getID();
+            $id = -1;
+            $title = $_POST['title'];
+            $content = $_POST['content'];
+            $wordCount = str_word_count($content);*/
+            $data = array(
+                'author' => $_SESSION['current']->getID();
+                'id' => -1;
+                'title' => $_POST['title'];
+                'content' => $_POST['content'];
+                'wordCount' => str_word_count($content);
+            )
+            
+            $operator->addBlog
+        }
+    }
+
+
+// METHODS - SUB-ROUTINES
     
     // Validates and moves uploaded file.  Returns file name
     private function processFile($file, $userName) {
@@ -130,8 +204,13 @@ class Controller {
     }
 
 
+    // Creates a Blog object for sending to DbOperator for database entry
     private function createBlog($data) {
+        $operator = new DbOperator();
         
+        $newBlog($data['id'], $data['title'], $data['author']);
+        $newBlog->setContent($data['content']);
+        $newBlog->setWordCount($data['wordCount'];
     }
 
 

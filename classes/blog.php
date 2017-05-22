@@ -22,12 +22,12 @@ class Blog {
      * within.
      * @param $id int database record number of this Blog
      * @param $title String title given to this Blog
-     * @param #content String content stored for this Blog
+     * @param $author int database record number of Blog author
      */
-    public function __construct($id, $title, $content) {
+    public function __construct($id, $title, $author) {
         $this->setID($id);
         $this->setTitle($title);
-        $this->setContent($content);
+        $this->setAuthor($author);
     }
 
 
