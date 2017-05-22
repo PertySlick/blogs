@@ -60,6 +60,36 @@ class DbOperator
         
         return $blogger;
     }
+    
+    
+    public function getUserID($userName) {      // Maybe if null replaces userExists()?
+        $stmt = $this->_conn->prepare(
+            'SELECT id ' .
+            'FROM bloggers ' .
+            'WHERE userName=:userName'
+        );
+        
+        $stmt->bindParam(':userName', $userName);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $results['id'];
+    }
+    
+    
+    public function getPassword($userName) {
+        $stmt = $this->_conn->prepare(
+            'SELECT password ' .
+            'FROM bloggers ' .
+            'WHERE userName=:userName'
+        );
+        
+        $stmt->bindParam(':userName', $userName);
+        $stmt->execute();
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $results['password'];
+    }
 
 
     /**

@@ -1,0 +1,30 @@
+<!--
+  * Author: Timothy Roush
+  * Date Created: 5/13/17
+  * Assignment: The Blogs Site
+  * Description:  Blog Login Page
+-->
+
+<include href="resources/template_header.inc.html" />
+
+<section class="frame" id="header">
+  <div class="pull-right blog-emblem">
+    BLOG
+  </div>
+  <h1>Welcome back!</h1>
+  <h3>Please log in below</h3>
+</section>
+<section>
+  <div class="float">
+    <form action="./login" method="POST" class="form-horizontal">
+      <div class="form-group">
+        <div class="input-group">
+          <input type="text" name="userName" id="userName" value="{{ @userName }}>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</section>
+
+<include href="resources/template_footer.inc.html">

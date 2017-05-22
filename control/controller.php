@@ -13,6 +13,24 @@ class Controller {
         }
     }
     
+    public function login($f3) {
+
+        if($_POST['action'] == 'login') {
+            $operator = new DbOperator();
+            $userName = $_POST['userName'];
+            $password = $_POST['password'];
+            
+            if ($operator->userExists($userName)) {
+                $dbPassword = $operator->getPassword($userName);
+                if ($this->verifyMatch(sha1($password), $dbPassword)) {
+                    echo 'YEEEEEEEEHAW!';
+                } else {
+                    echo 'NOOOOOOOOOOOOOOOOO!';
+                }
+            }
+        }
+    }
+    
     
     public function home($f3) {
         $operator = new DbOperator();
@@ -26,10 +44,6 @@ class Controller {
         $f3->mset(array(
             'description' => 'Register New Blogger',
             'title' => 'Register',
-            
-            // Temporary Objects TODO: REMOVE
-            //'user' => true,
-            //'current' => $this->makeBlogger()
         ));
         
         // If POST data indicates 'create user'
@@ -80,11 +94,7 @@ class Controller {
             }
         }
     }
-    
-    // Ensures password and verfiy value match
-    private function verifyMatch($password, $verify) {
-        
-    }
+
     
     /**
      * Creates a new blogger object using the specified data array.  This
@@ -107,5 +117,13 @@ class Controller {
         //$newblogger->setLastBlog($operator->getLastSummary($data['id']));
         
         return $newBlogger;
+    }
+
+
+// METHODS - VALIDATION
+
+
+    private function verifyMatch($password, $match) {
+        return $password === $match;
     }
 }

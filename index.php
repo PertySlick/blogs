@@ -21,8 +21,16 @@
         echo \Template::instance()->render('view/register.html');
     });
     
-    $f3-route('GET /logout', function($f3) use ($controller) {
-        
-    })
+    $f3->route('GET /login', function($f3) use ($controller) {
+        $controller->login($f3);
+        echo \Template::instance()->render('view/login.html');
+    });
+    
+    $f3->route('GET /logout', function($f3) use ($controller) {
+        session_destroy();
+        $f3->set('user', false);
+        $f3->clear('current');
+        $f3->reroute('');
+    });
     
     $f3->run();

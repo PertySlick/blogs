@@ -11,6 +11,19 @@ span.input-group-addon {
   width: 130px;
 }
 
+.blog-emblem {
+  background-color: #000;
+  border-radius: 100px;
+  color: #fff;
+  font-size: 3em;
+  font-weight: 800;
+  height: 150px;
+  line-height: 150px;
+  margin-right: 50px;
+  text-align: center;
+  width: 150px;
+}
+
 .card {
   background-color: #9cf;
   border-radius: 15px;
