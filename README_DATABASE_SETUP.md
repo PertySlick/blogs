@@ -1,4 +1,11 @@
--- Create bloggers table
+# blogs
+## Green River College IT328 Full Stack Web Development
+### Assignment: Blogs
+
+This readme displays the MySQL code necessary to initiate the required database setup for the "blogs" assignment.
+
+**Create bloggers table**
+```SQL
 CREATE TABLE bloggers (
   id INT AUTO_INCREMENT PRIMARY KEY,
   userName VARCHAR(30) NOT NULL UNIQUE,
@@ -7,8 +14,10 @@ CREATE TABLE bloggers (
   bio TEXT,
   password VARCHAR(255) NOT NULL
 ) ENGINE=INNODB;
+```
 
--- Create blogs table
+**Create blogs table**
+```SQL
 CREATE TABLE blogs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   author INT NOT NULL,
@@ -19,5 +28,4 @@ CREATE TABLE blogs (
   dateEdited TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (author) REFERENCES bloggers(id)
 ) ENGINE=INNODB;
-
-
+```
