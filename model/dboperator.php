@@ -1,10 +1,33 @@
 <?php
 
+/*
+ * File Name: dboperator.php
+ * Author: Timothy Roush
+ * Date Created: 5/13/17
+ * Assignment: The Blogs Site
+ * Description:  Model MVC Component - Handles Database Operations
+ */
+
+ /**
+  * DbOperator represents an instance of a "model" component of the MVC style
+  * architecture.  This class handles any and all database interaction
+  * operations at the request of the controller component.  Class employs PDO
+  * SQL queries and statements to sanitize inputs as they are entered into the
+  * database.  Operator designed to always be passing either system determined
+  * integer values or Blogger/Blog objects to and from methods where ever
+  * possible.  This operator will only work with the Blogger and Blog classes.
+  *
+  * @author Timothy Roush
+  * @copyright 2017
+  * @version 1.0
+  * @see Blogger.php
+  * @see Blog.php
+  */
 class DbOperator
 {
 
 
-// FIELDS AND OBJECTS
+// FIELDS - CONSTANTS AND OBJECTS
 
     const SUMMARY_LENGTH = 250;     // Amount of text in blog summary
     private $_conn;                 // Database Connection Object
@@ -13,6 +36,11 @@ class DbOperator
 // CONSTRUCTOR
 
 
+    /**
+     * Creates an instance of a database interaction object.  Requires access
+     * to an externally stored credentials file for accessing the database.
+     * @throws PDOException if error encountered while establishing connection
+     */
     public function __construct()
     {
         // Require Configuration File
@@ -41,33 +69,39 @@ class DbOperator
      * @param $id int id number to retrieve
      * @return Blogger object of results, null if not found
      */
-    public function getBlogger($id) {
-        // Create Prepared Statement
+    public function getBlogger($id)
+    {
+        // Create prepared statement
         $stmt = $this->_conn->prepare(
             'SELECT id, userName, email, image, bio ' .
             'FROM bloggers ' .
             'WHERE id=:id'
             );
         
-        // Bind Statement Parameters
+        // Bind statement parameters
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         
-        // Execute PDO Statement
+        // Execute PDO statement and return results
         $stmt->execute();
-        $results = $stmt->fetch( PDO::FETCH_ASSOC );
-
-        $blogger = $this->createBlogger($results);
         
-        return $blogger;
+        if ($stmt->rowCount() > 0) {
+            $results = $stmt->fetch( PDO::FETCH_ASSOC );
+            $blogger = $this->createBlogger($results);
+            // Return a Blogger object
+            return $blogger;
+        } else {
+            die('<strong>(!)</strong> There was an error retrieving Blogger with ID# ' . $id);
+        }
     }
 
 
     /**
      * Retrieves the id for the specified user if they exist in the database.
      * @param $userName String user name to search database for
-     * @return int blogger's database id number
+     * @return int blogger's database id number, or -1 for not found
      */
-    public function getUserID($userName) {      // TODO: Maybe if null replaces userExists()?
+    public function getUserID($userName)        // Replaces userExists()?
+    {      
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT id ' .
@@ -78,10 +112,17 @@ class DbOperator
         // Bind parameters and get results
         $stmt->bindParam(':userName', $userName);
         $stmt->execute();
-        $results = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        // Return id number retrieved
-        return $results['id'];
+        // Return results if any, -1 otherwise
+        if ($stmt->rowCount() > 0) {
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $results['id'];              // Return id number retrieved
+        } else {
+            return -1;
+        }
+        
+        
+        
     }
 
 
@@ -92,7 +133,8 @@ class DbOperator
      * @param $userName String user name to search database for
      * @return String value stored as user's password
      */
-    public function getPassword($userName) {
+    public function getPassword($userName)
+    {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT password ' .
@@ -117,7 +159,8 @@ class DbOperator
      * the database, a null value is returned.
      * @return array() array of Blogger objects, null if none exist
      */
-    public function getAllBloggers() {
+    public function getAllBloggers()
+    {
         // Array to store Blogger objects to return
         $bloggers = array();
         
@@ -141,8 +184,6 @@ class DbOperator
 
 
     /**
-     * Add a User/Blogger
-     *
      * Adds a Blogger to the database using information stored in a Blogger
      * object.  The member_id of the blogger is returned for use in parent
      * block.
@@ -217,7 +258,14 @@ class DbOperator
 // METHODS - BLOG OPERATIONS
 
 
-    public function getBlog($id) {
+    /**
+     * Retrieves all data stored for the specified record number blog and
+     * returns it in a Blog object.
+     * @param $id int database record number to retrieve from blogs
+     * @return Blog object storing all daa for specified blog
+     */
+    public function getBlog($id)
+    {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT * ' .
@@ -225,15 +273,20 @@ class DbOperator
             'WHERE id=' . $id
         );
         
-        //Get Results
+        //Get Results and return them as a Blog
         $stmt->execute();
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        
         return $this->createBlog($data);
     }
     
     
-    public function getBlogsList($id) {
+    /**
+     * Retrieves a list of an author's blogs storing just the id and title
+     * @param $id int id of author to find blogs for
+     * @return Array all records return for author
+     */
+    public function getBlogsList($id)
+    {
         $stmt = $this->_conn->prepare(
             'SELECT id, title ' .
             'FROM blogs ' .
@@ -246,24 +299,38 @@ class DbOperator
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
-    public function getBlogShortList($author) {
-        $temp = array();
-        $results = array();
-        $blogList = $this->getBlogsList($author);
 
+
+    /**
+     * Retrieves all blog data for the specified author id.  Content stored
+     * in results is shortened to the value of SUMMARY_LENGTH for summary.
+     * Data is returned as an array of Blog objects.
+     * @param $author int id of author to pull blogs for
+     * @return Array of Blog objects
+     */
+    public function getBlogShortList($author)
+    {
+        $results = array();                         // Initialize result array
+        $blogList = $this->getBlogsList($author);   // Get a list of blog IDs
+
+        // Get full blog data for each blog ID and package in array
         foreach ($blogList as $blog) {
             $tempBlog = $this->getBlog($blog['id']);
             $tempBlog->setContent(substr($tempBlog->getContent(), 0, $this::SUMMARY_LENGTH));
             $results[] = $tempBlog;
         }
         
+        // Return array of Blogs
         return $results;
     }
 
 
-    public function addBlog($blog) {
+    /**
+     * Add specified Blog object data to database as a new blog entry.
+     * @param $blog Blog object storing values to add to database
+     */
+    public function addBlog($blog)
+    {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'INSERT INTO blogs ' .
@@ -278,9 +345,15 @@ class DbOperator
         $stmt->bindParam(':wordCount', $blog->getWordCount(), PDO::PARAM_INT);
         $stmt->execute();
     }
-    
-    
-    public function editBlog($blog) {
+
+
+    /**
+     * Modifies an existing blog entry in the database with the values stored
+     * in the specified Blog object.
+     * @param $blog Blog object storing values to update blog entry
+     */
+    public function editBlog($blog)
+    {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'UPDATE blogs ' .
@@ -297,9 +370,14 @@ class DbOperator
         $stmt->bindParam(':id', $blog->getID(), PDO::PARAM_INT);
         $stmt->execute();
     }
-    
-    
-    public function deleteBlog($id) {
+
+
+    /**
+     * Removes the entire specified blog entry from the database.
+     * @param $id int record number to be removed
+     */
+    public function deleteBlog($id)
+    {
         // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'DELETE FROM blogs ' .
@@ -315,6 +393,11 @@ class DbOperator
 // METHODS - SUB-ROUTINES
 
 
+    /**
+     * Determines if the supplied email exists in the bloggers database table
+     * @param $email String email to check for
+     * @return true if email is found, false otherwise
+     */
     public function emailExists($email)
     {
         // Create Prepared Statement
@@ -337,6 +420,11 @@ class DbOperator
     }
 
 
+    /**
+     * Determines if specified user exists in the bloggers database table
+     * @param $userName String user name to locate in database
+     * @return true if user name exists, false otherwise
+     */
     public function userExists($userName)
     {
         // Create Prepared Statement
@@ -359,9 +447,14 @@ class DbOperator
     }
 
 
+    /**
+     * Determines if specified user ID is in the bloggers database table
+     * @param $id int user record number to locate in database
+     * @return true if user ID exists, false otherwise
+     */
     public function idExists($id)
     {
-        
+        // Prepare PDO statement
         $stmt = $this->_conn->prepare(
             'SELECT COUNT(*) AS count' .
             'FROM bloggers' .
@@ -381,6 +474,11 @@ class DbOperator
     }
 
 
+    /**
+     * Returns the number of blogs the specified author has stored in database
+     * @param $id int author record number to find blogs for
+     * @return int number of blogs associated with author ID
+     */
     public function getBlogCount($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
@@ -395,11 +493,17 @@ class DbOperator
         // Return results
         $stmt->execute();
         $results = $stmt->fetch(PDO::FETCH_ASSOC);
-        
         return $results['count'];
     }
 
 
+    /**
+     * Retrieves the summarized content of the last blog written by the
+     * specified author.  Blog content is summarized to the value of
+     * SUMMARY_LENGTH.
+     * @param $id int author record number to locate a blog for
+     * @return String summarized string of blog contents
+     */
     public function getLastSummary($id) {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
@@ -445,14 +549,21 @@ class DbOperator
     }
 
 
-    // Creates a Blog object for sending to Controller for use
+    /**
+     * Creates a Blog object for returning data to Controller for use.  Blog
+     * object created using Blog class methods.
+     * @param $data Array data to use in creating a Blog object
+     * @return Blog object
+     */
     private function createBlog($data) {
+        // Create Blog object
         $newBlog= new Blog($data['id'], $data['title'], $data['author']);
         $newBlog->setContent($data['content']);
         $newBlog->setWordCount($data['wordCount']);
         $newBlog->setDateAdded($data['dateAdded']);
         $newBlog->setDateEdited($data['dateEdited']);
         
+        // Return new Blog object
         return $newBlog;
     }
 }
