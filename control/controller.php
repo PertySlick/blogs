@@ -85,6 +85,15 @@ class Controller {
     }
     
     
+    public function aboutUs($f3) {
+        //Set environemnt tokens
+        $f3->mset(array(
+            'description' => 'About Us',
+            'title' => 'About Us'
+        ));
+    }
+    
+    
     public function viewProfile($f3, $id) {
         // Set environment tokens
         $f3->mset(array(

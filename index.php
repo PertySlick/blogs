@@ -18,6 +18,12 @@
         echo \Template::instance()->render('view/home.html');
       });
     
+    //User wants to learn more about the site with "About Us"
+    $f3->route('GET /about', function($f3) use ($controller) {
+        $controller->aboutUs($f3);
+        echo \Template::instance()->render('view/about.html');
+    });
+    
     // User wants to register and gain access to member features
     $f3->route('GET|POST /register', function($f3) use ($controller) {
         $controller->register($f3);

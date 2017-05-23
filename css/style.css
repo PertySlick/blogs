@@ -2,10 +2,6 @@ html, body, .container {
   height: 100%;
 }
 
-.sidenav {
-  height: 100%;
-}
-
 span.input-group-addon {
   text-align: center;
   width: 130px;
@@ -79,6 +75,10 @@ span.input-group-addon {
   width: 50%;
 }
 
+.h4 {
+  font-weight: 700;
+}
+
 .img-frame {
   overflow: hidden;
   max-height: 138px;
@@ -100,22 +100,16 @@ span.input-group-addon {
   width: 100%;
 }
 
-.leftcolumn {
-  border-right: 1px solid black;
-  padding-left: 10px;
-  padding-right: 5px;
-}
-
 .img-lrg {
   max-height: 300px;
   max-width: 300px;
   min-height: 250px;
 }
 
-.rightcolumn {
-  border-left: 1px solid black;
-  padding-left: 5px;
-  padding-right: 10px;
+.leftcolumn {
+  border-right: 1px solid black;
+  padding-left: 10px;
+  padding-right: 5px;
 }
 
 .form-group {
@@ -155,11 +149,22 @@ span.input-group-addon {
   padding-right: 0px;
 }
 
+.pincer {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
 .profile-title {
   border-bottom: 1px solid #000;
   margin-bottom: 5px;
   margin-top: 0px;
   padding-bottom: 5px;
+}
+
+.rightcolumn {
+  border-left: 1px solid black;
+  padding-left: 5px;
+  padding-right: 10px;
 }
 
 .right-indent {
@@ -203,6 +208,16 @@ span.input-group-addon {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 15px;
+}
+
+.sidenav {
+  height: 100%;
+}
+
+.text-rule {
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #000;
+  padding: 10px;
 }
 
 /*Used in conjuction with .labeltop element*/
