@@ -1,6 +1,30 @@
 <?php
 
-class Blogger {
+/*
+ * File Name: blogger.php
+ * Author: Timothy Roush
+ * Date Created: 5/15/17
+ * Assignment: The Blogs Site
+ * Description:  Class To Store And Manage Blogger Data
+ */
+
+ /**
+  * Blogger is an class representing a blogger object.  It stores all data
+  * applicable to a blogger and controls access to said data.  It is to be used
+  * in conjuction with the Blog class.
+  *
+  * @author Timothy Roush
+  * @copyright 2017
+  * @version 1.0
+  * @see Blog.php
+  */
+class Blogger
+{
+
+
+// FIELDS AND CONSTANTS
+
+
     const DEFAULT_IMAGE = "anon.png";
 
     private $_id;

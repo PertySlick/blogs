@@ -1,10 +1,13 @@
+/*
+ * File Name: style.css
+ * Author: Timothy Roush
+ * Date Created: 5/14/17
+ * Assignment: The Blogs Site
+ * Description: CSS Style Rules For The Blogs Site
+ */
+
 html, body, .container {
   height: 100%;
-}
-
-span.input-group-addon {
-  text-align: center;
-  width: 130px;
 }
 
 .blog-content {
@@ -231,10 +234,16 @@ span.input-group-addon {
 nav.frame {
   height: 100%;
 }
+
 section.frame {
   display: block;
   height: 100%;
   width: 100%;
+}
+
+span.input-group-addon {
+  text-align: center;
+  width: 130px;
 }
 
 #header {

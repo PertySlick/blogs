@@ -1,5 +1,23 @@
 <?php
 
+/*
+ * File Name: blog.php
+ * Author: Timothy Roush
+ * Date Created: 5/21/17
+ * Assignment: The Blogs Site
+ * Description:  Class To Store And Manage Blog Data
+ */
+
+ /**
+  * Blog is an class representing a blog object.  It stores all data
+  * applicable to a blog and controls access to said data.  It is to be used
+  * in conjuction with the Blogger class.
+  *
+  * @author Timothy Roush
+  * @copyright 2017
+  * @version 1.0
+  * @see Blogger.php
+  */
 class Blog {
 
 // FIELDS
