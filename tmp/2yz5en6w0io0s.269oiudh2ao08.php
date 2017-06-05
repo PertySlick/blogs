@@ -37,7 +37,7 @@
         <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
         <nav>
           <a href="<?= $BASE ?>">Home ></a><br />
-          <?php if ($user === true): ?>
+          <?php if ($userStatus === true): ?>
             
               <a href="myblogs">My Blogs ></a><br />
               <a href="create">Create Blog ></a><br />
@@ -47,7 +47,7 @@
             
           <?php endif; ?>
           <a href="about">About Us ></a><br />
-          <?php if ($user): ?>
+          <?php if ($userStatus): ?>
             
               <a href="logout">Logout ></a><br />
             

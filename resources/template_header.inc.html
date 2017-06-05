@@ -37,7 +37,7 @@
         <img src="images/trumpet.gif" id="trumpet" alt="Brand Image" />
         <nav>
           <a href="{{ @BASE }}">Home ></a><br />
-          <check if="{{ @user === true }}">
+          <check if="{{ @userStatus === true }}">
             <true>
               <a href="myblogs">My Blogs ></a><br />
               <a href="create">Create Blog ></a><br />
@@ -47,7 +47,7 @@
             </false>
           </check>
           <a href="about">About Us ></a><br />
-          <check if="{{ @user }}">
+          <check if="{{ @userStatus }}">
             <true>
               <a href="logout">Logout ></a><br />
             </true>

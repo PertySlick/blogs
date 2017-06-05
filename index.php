@@ -46,8 +46,15 @@
 
 
     // User wants to register and gain access to member features
-    $f3->route('GET|POST /register', function($f3) use ($controller) {
+    $f3->route('GET /register', function($f3) use ($controller) {
         $controller->register($f3);
+        echo \Template::instance()->render('view/register.html');
+    });
+    
+    
+    // User wants to register and gain access to member features
+    $f3->route('POST /register', function($f3) use ($controller) {
+        $controller->registerSubmit($f3);
         echo \Template::instance()->render('view/register.html');
     });
 

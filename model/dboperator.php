@@ -8,21 +8,21 @@
  * Description:  Model MVC Component - Handles Database Operations
  */
 
- /**
-  * DbOperator represents an instance of a "model" component of the MVC style
-  * architecture.  This class handles any and all database interaction
-  * operations at the request of the controller component.  Class employs PDO
-  * SQL queries and statements to sanitize inputs as they are entered into the
-  * database.  Operator designed to always be passing either system determined
-  * integer values or Blogger/Blog objects to and from methods where ever
-  * possible.  This operator will only work with the Blogger and Blog classes.
-  *
-  * @author Timothy Roush
-  * @copyright 2017
-  * @version 1.0
-  * @see Blogger.php
-  * @see Blog.php
-  */
+/**
+ * DbOperator represents an instance of a "model" component of the MVC style
+ * architecture.  This class handles any and all database interaction
+ * operations at the request of the controller component.  Class employs PDO
+ * SQL queries and statements to sanitize inputs as they are entered into the
+ * database.  Operator designed to always be passing either system determined
+ * integer values or Blogger/Blog objects to and from methods where ever
+ * possible.  This operator will only work with the Blogger and Blog classes.
+ *
+ * @author Timothy Roush
+ * @copyright 2017
+ * @version 1.0
+ * @see Blogger.php
+ * @see Blog.php
+ */
 class DbOperator
 {
 
@@ -402,13 +402,41 @@ class DbOperator
     {
         // Create Prepared Statement
         $stmt = $this->_conn->prepare(
-            'SELECT COUNT(*) AS count' .
-            'FROM bloggers' .
+            'SELECT COUNT(*) AS count ' .
+            'FROM bloggers ' .
             'WHERE email=:email'
             );
         
         // Bind Statement Parameters
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        
+        // Execute PDO Statement
+        $stmt->execute();
+        $results = $stmt->fetch( PDO::FETCH_ASSOC );
+        
+        // Return results
+        if ($results['count'] > 0) return true;
+        else return false;
+    }
+
+
+    /**
+     * Determines if the supplied user name exists in the bloggers database
+     * table.
+     * @param $userName String user name to check for
+     * @return true if user name is found, false otherwise
+     */
+    public function userNameExists($userName)
+    {
+        // Create Prepared Statement
+        $stmt = $this->_conn->prepare(
+            'SELECT COUNT(*) AS count ' .
+            'FROM bloggers ' .
+            'WHERE userName=:userName'
+            );
+        
+        // Bind Statement Parameters
+        $stmt->bindParam(':userName', $userName, PDO::PARAM_STR);
         
         // Execute PDO Statement
         $stmt->execute();

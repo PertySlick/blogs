@@ -82,6 +82,17 @@ html, body, .container {
   font-weight: 700;
 }
 
+.has-error .shadelabel {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442;
+}
+
+.help-block {
+  display: block;
+  font-size: 0.8em;
+}
+
 .img-frame {
   overflow: hidden;
   max-height: 138px;
@@ -94,6 +105,10 @@ html, body, .container {
 
 .inline {
   display: inline;
+}
+
+.input-group .help-block {
+  display: table-row;
 }
 
 .input-wrapper {

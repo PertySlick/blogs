@@ -6,28 +6,39 @@
   <h3>Create a new account below</h3>
 </section>
 <section>
-  <form action="./register" method="POST" class="form-horizontal" enctype="multipart/form-data" name="info">
+  <form action="./register" method="POST" class="form-horizontal"
+        enctype="multipart/form-data" name="registration" id="registration">
     <div class="row">
       <div class="col-sm-6 no-pad-right">
         <div class="input-wrapper">
           <div class="form-group">
-            <div class="input-group">
-              <input type="text" class="form-control" name="userName" id="userName" value="<?= $nonsense ?>" required="required" />
+            <div class="input-group <?= $userNameError?'has-error':'' ?>">
+              <input type="text" class="form-control" name="userName" 
+                     id="userName" placeholder="User Name" 
+                     value="<?= $userName ?>" data-required="true" />
               <span class="input-group-addon"><label for="username">Username</label></span>
+              <div class="help-block"><?= $userNameError ?></div>
             </div>
-            <div class="input-group sep-field">
-              <input type="text" class="form-control" name="email" id="email" placeholder="Email" required="required" />
+            <div class="input-group sep-field <?= $emailError?'has-error':'' ?>">
+              <input type="text" class="form-control" name="email" 
+                     id="email" placeholder="Email"
+                     value="<?= $email ?>" data-required="true" />
               <span class="input-group-addon"><label for="email">Email</label></span>
+              <div class="help-block"><?= $emailError ?></div>
             </div>
           </div>
           <div class="form-group">
-            <div class="input-group">
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required" />
+            <div class="input-group <?= $passwordError?'has-error':'' ?>">
+              <input type="password" class="form-control" name="password" 
+                     id="password" placeholder="Password" data-required="true" />
               <span class="input-group-addon"><label for="password">Password</label></span>
+              <div class="help-block"><?= $passwordError ?></div>
             </div>
-            <div class="input-group sep-field">
-              <input type="password" class="form-control" name="verify" id="verify" placeholder="Verify Password" required="required" />
+            <div class="input-group sep-field <?= $verifyError?'has-error':'' ?>">
+              <input type="password" class="form-control" name="verify" 
+                     id="verify" placeholder="Verify Password" data-required="true" />
               <span class="input-group-addon"><label for="verify">Verify</label></span>
+              <div class="help-block"><?= $verifyError ?></div>
             </div>
           </div>
         </div>
@@ -42,9 +53,17 @@
                   Upload Portrait<input type="file" name="image" id="image" />
                 </span>
               </label>
+              <div class="help-block"></div>
             </div>
-            <div class="shadelabel toplabel sep-field"><label for="bio">Quick Biography</label></div>
-            <textarea class="form-control labeltop" rows="5" name="bio" id="bio" required="required" ></textarea>
+            <div class="input-group <?= $bioError?'has-error':'' ?>">
+              <div class="shadelabel toplabel sep-field">
+                <label for="bio">Quick Biography</label>
+              </div>
+              <textarea class="form-control labeltop" rows="5" name="bio" id="bio"
+                        placeholder="A short description of yourself..."
+                        data-required="true"><?= $bio ?></textarea>
+              <div class="help-block"><?= $bioError ?></div>
+            </div>
           </div>
         </div>
       </div>

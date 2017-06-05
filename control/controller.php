@@ -8,18 +8,18 @@
  * Description: Controller Component Of MVC Architecture
  */
 
- /**
-  * Provides a separation of logic and output for the Blogs site.  Processes
-  * and prepares all data required to produce each view in the routing document
-  *
-  * @author Timothy Roush
-  * @copyright 2017
-  * @version 1.0
-  * @see DbOperator.php
-  * @see index.php
-  * @see Blogger.php
-  * @see Blog.php
-  */
+/**
+ * Provides a separation of logic and output for the Blogs site.  Processes
+ * and prepares all data required to produce each view in the routing document
+ *
+ * @author Timothy Roush
+ * @copyright 2017
+ * @version 1.0
+ * @see DbOperator.php
+ * @see index.php
+ * @see Blogger.php
+ * @see Blog.php
+ */
 class Controller {
 
 
@@ -152,36 +152,52 @@ class Controller {
             'description' => 'Register New Blogger',
             'title' => 'Register',
         ));
+    }
+    
+    
+    /**
+     * Controller functions to operate for when visitor to register as a member
+     * and gain access to member-only features.  Data is evaulated and
+     * processed to complete registration.
+     * @param $f3 fat-free instance to operate with
+     */
+    public function registerSubmit($f3) {
+        // Set environment tokens
+        $f3->mset(array(
+            'description' => 'Register New Blogger',
+            'title' => 'Register',
+        ));
         
         // If POST data indicates 'create user'
-        if (isset($_POST['action']) && $_POST['action'] == 'create') {
-            $operator = new DbOperator();
-            
-            $id = -1;
-            $userName = $_POST['userName'];
-            $email = $_POST['email'];
-            $password = sha1($_POST['password']);
-            $image = $this->processFile($_FILES['image'], $userName);
-            $bio = $_POST['bio'];
-            
-            $data = array(
-                'id' => $id,
-                'userName' => $userName,
-                'email' => $email,
-                'image' => $image,
-                'bio' => $bio
-            );
-            
-            // Create database entry and new Blogger instance
-            $blogger = $this->createBlogger($data);
-            $newID = $operator->addBlogger($blogger, $password);
-            $blogger->setID($newID);
-            
-            // Store Blogger in SESSION and set toggle for logged in
-            $_SESSION['current'] = $blogger;
-            $_SESSION['user'] = true;
-            
-            $f3->reroute('/');
+        if (!empty($_POST['action']) && $_POST['action'] == 'create') {
+            echo $f3->get('userName');
+            if ($this->validateRegistration($f3)) {
+                
+                $id = -1;
+                $password = sha1($_POST['password']);
+                $image = $this->processFile($_FILES['image'], $userName);
+
+                
+                $data = array(
+                    'id' => $id,
+                    'userName' => $f3->get('userName'),
+                    'email' => $f3->get('email'),
+                    'image' => $image,
+                    'bio' => $f3->get('bio')
+                );
+                
+                // Create database entry and new Blogger instance
+                $blogger = $this->createBlogger($data);
+                $operator = new DbOperator();
+                $newID = $operator->addBlogger($blogger, sha1($f3->get('password')));
+                $blogger->setID($newID);
+                
+                // Store Blogger in SESSION and set toggle for logged in
+                $_SESSION['current'] = $blogger;
+                $_SESSION['user'] = true;
+                
+                $f3->reroute('/');
+            }
         }
     }
 
@@ -418,5 +434,113 @@ class Controller {
      */
     private function verifyMatch($password, $match) {
         return $password === $match;
+    }
+
+
+// METHODS - SECONDARY (REGISTRATION VALIDATION)
+
+
+    private function validateRegistration($f3) {
+        $f3->set('isError', false);
+        $fields = array('userName', 'password', 'verify', 'email', 'bio');
+            
+        foreach ($fields as $field) {
+            $$field = $this->sanitize($_POST[$field]);
+            $f3->set($field, $$field);
+        }
+        
+        // Email field validation
+        if (!$this->validEmail($email)) {
+            $f3->set( 'isErrors', true );
+            $f3->set( 'emailError', 'This is not a valid email format');
+        } else {
+            if (!$this->uniqueEmail($email)) {
+                $f3->set( 'isErrors', true );
+                $f3->set( 'emailError', 'Email has already been registered');
+            }
+        }
+          
+        // Make sure user name is unique
+        if (!$this->uniqueUserName($userName)) {
+            $f3->set( 'isError', true );
+            $f3->set( 'userNameError', 'User name has already been registered');
+        }
+        
+        // Make sure password meets requirements
+        if (!$this->validPassword($password)) {
+            $f3->set( 'isError', true );
+            $f3->set( 'passwordError', '6 characters including a number and special character');
+        } else {            // Make sure password and verify are equal
+            if (!$this->fieldsMatch($password, $verify)) {
+                $f3->set( 'isError', true );
+                $f3->set( 'passwordError', 'Password and Verify values must match');
+                $f3->set( 'verifyError', 'Password and Verify values must match');
+            }
+        }
+        
+        // Make sure required fields have values
+        $this->checkRequired($f3, $fields);
+        
+        return !$f3->get('isError');
+    }
+
+    
+    // Make sure required fields have values
+    private function checkRequired($f3, $fields) {
+        foreach ($fields as $field) {
+            if (empty($f3->get($field))) {
+                $f3->set('isError', true);
+                $f3->set($field . 'Error', 'This is a required field');
+            }
+        }
+    }
+    
+    
+    // Make sure user name is not already registered
+    private function uniqueUserName($userName) {
+        $operator = new DbOperator();
+
+        if (($operator->userNameExists($userName))) return false;
+        else return true;
+    }
+    
+    
+    // Make sure email is not already registered
+    private function uniqueEmail($email) {
+        $operator = new DbOperator();
+
+        if (($operator->emailExists($email))) return false;
+        else return true;
+    }
+    
+    
+    // Make sure email format is valid
+    private function validEmail($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return false;
+        else return true;
+    }
+    
+    
+    // Make sure password meets requirements
+    // 6 characters with at least 1 digit and special
+    private function validPassword($password) {
+        $pattern = '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/';
+        if (preg_match($pattern, $password) == 1) return true;
+        else return false;
+    }
+    
+    
+    // Make sure two non-empty values match each other (password/verify)
+    private function fieldsMatch($field1, $field2) {
+        return $field1 == $field2;
+    }
+    
+    
+    private function sanitize($data) {
+        $data = preg_replace('/<(.|\n)*?>/', '', $data);
+        $data = trim($data);
+        $data = stripcslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 }
